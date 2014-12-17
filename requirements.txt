@@ -1,0 +1,14 @@
+sqlalchemy
+flask
+flask-sqlalchemy
+flask-restless
+flask-script
+flask-migrate
+flask-testing
+flask-security
+behave
+requests
+alembic
+pyhamcrest
+tornado
+mysql-connector-python
