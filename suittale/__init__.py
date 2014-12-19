@@ -8,10 +8,18 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 db = SQLAlchemy()
 
-from suittale.products.admin import CategoryView, ProductView
+from suittale.products.admin import AdminCategoryView, AdminProductView, AdminTextureView
+
 admin = Admin(app)
-admin.add_view(CategoryView(db.session))
-admin.add_view(ProductView(db.session))
+
+
+def add_prod_admin_views():
+    admin.add_view(AdminCategoryView(db.session))
+    admin.add_view(AdminProductView(db.session))
+    admin.add_view(AdminTextureView(db.session))
+
+
+add_prod_admin_views()
 
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)
 from .views import *

@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 from suittale import db
 from suittale.core import BaseModel, generate_uuid
+import os
+import os.path as op
+from sqlalchemy import event
+
+
+# Figure out base upload path
+base_path = op.join(op.dirname(__file__), 'static')
 
 
 class Category(BaseModel):
@@ -16,6 +23,8 @@ class Texture(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     code = db.Column(db.String(50), unique=True, nullable=False)
     composition = db.Column(db.String(100))
+    thumbnail = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=False)
     __tablename__ = 'textures'
 
 
@@ -63,5 +72,31 @@ class ProductMeasure(BaseModel):
     product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
     measure_id = db.Column(db.String(255), db.ForeignKey('measures.id'), nullable=False)
     number = db.Column(db.Integer, nullable=False)
-    __table_args__ = (db.UniqueConstraint('product_id', 'measure_id', 'status', name='_product_measure_uc'),)
+    __table_args__ = (db.UniqueConstraint('product_id', 'measure_id', name='_product_measure_uc'),)
     __tablename__ = 'product_measures'
+
+
+"""
+Event listeners
+"""
+
+
+# Register after_delete handler which will delete image file after model gets deleted
+@event.listens_for(ProductImage, 'after_delete')
+def _handle_prod_image_delete(mapper, conn, target):
+    if target.path:
+        os.remove(op.join(base_path, target.path))
+
+
+@event.listens_for(Product, 'after_delete')
+def _handle_prod_thumbnail_delete(mapper, conn, target):
+    if target.thumbnail:
+        os.remove(op.join(base_path, target.thumbnail))
+
+
+@event.listens_for(Texture, 'after_delete')
+def _handle_texture_image_delete(mapper, conn, target):
+    if target.thumbnail:
+        os.remove(op.join(base_path, target.thumbnail))
+    if target.image:
+        os.remove(op.join(base_path, target.image))
