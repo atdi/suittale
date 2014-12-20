@@ -8,4 +8,4 @@ base_path = op.join(op.dirname(__file__), 'static')
 
 class AdminBaseView(SqlaModelView):
     # Override displayed fields
-    form_excluded_columns = ('version', 'creation_date', 'updated_by')
+    form_excluded_columns = ['version', 'creation_date', 'updated_by']

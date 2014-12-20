@@ -64,6 +64,7 @@ class ProductAttribute(BaseModel):
     name = db.Column(db.String(100), nullable=False)
     value = db.Column(db.String(255), nullable=False)
     product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
+    __table_args__ = (db.UniqueConstraint('product_id', 'name', name='_product_measure_uc'),)
     __tablename__ = 'product_attributes'
 
     def __str__(self):
@@ -96,18 +97,30 @@ Event listeners
 # Register after_delete handler which will delete image file after model gets deleted
 @event.listens_for(ProductImage, 'after_delete')
 def _handle_prod_image_delete(mapper, conn, target):
-    if target.path:
-        os.remove(op.join(base_path, target.path))
+    try:
+        if target.path:
+            os.remove(op.join(base_path, target.path))
+    except OSError:
+            # Don't care if was not deleted because it does not exist
+            pass
 
 
 @event.listens_for(Product, 'after_delete')
 def _handle_prod_thumbnail_delete(mapper, conn, target):
-    if target.thumbnail:
-        os.remove(op.join(base_path, target.thumbnail))
+    try:
+        if target.thumbnail:
+            os.remove(op.join(base_path, target.thumbnail))
+    except OSError:
+            # Don't care if was not deleted because it does not exist
+            pass
 
 
 @event.listens_for(Texture, 'after_delete')
 def _handle_texture_image_delete(mapper, conn, target):
-    if target.image:
-        os.remove(op.join(base_path, target.image))
-        os.remove(op.join(base_path, thumbgen_filename(target.image)))
+    try:
+        if target.image:
+            os.remove(op.join(base_path, target.image))
+            os.remove(op.join(base_path, thumbgen_filename(target.image)))
+    except OSError:
+            # Don't care if was not deleted because it does not exist
+            pass
