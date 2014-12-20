@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-from flask.ext.admin.form.upload import ImageUploadField
+from flask.ext.admin.form.upload import ImageUploadField, thumbgen_filename
+from flask.helpers import url_for
+from markupsafe import Markup
 
 from suittale.admin_core import AdminBaseView, base_path
 from suittale.products.models import Category, Product, Texture, op
@@ -21,8 +23,19 @@ class AdminCategoryView(AdminBaseView):
 
 
 class AdminTextureView(AdminBaseView):
+    def _list_thumbnail(view, context, model, name):
+        if not model.image:
+            return ''
+
+        return Markup('<img src="%s">' % url_for('static',
+                                                 filename=thumbgen_filename(model.image)))
+
+    column_formatters = {
+        'image': _list_thumbnail
+    }
+
     # Override displayed fields
-    column_list = ('code', 'composition')
+    column_list = ('code', 'composition', 'image')
 
     form_extra_fields = {
         'image': ImageUploadField('Image',

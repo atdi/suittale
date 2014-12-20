@@ -16,6 +16,9 @@ class Category(BaseModel):
     products = db.relationship("Product", backref="category")
     __tablename__ = 'categories'
 
+    def __str__(self):
+        return self.name
+
 
 class Texture(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
@@ -23,6 +26,9 @@ class Texture(BaseModel):
     composition = db.Column(db.String(100))
     image = db.Column(db.String(255), nullable=False)
     __tablename__ = 'textures'
+
+    def __str__(self):
+        return self.code
 
 
 class Product(BaseModel):
@@ -39,6 +45,9 @@ class Product(BaseModel):
     attributes = db.relationship("ProductAttribute", backref="product")
     images = db.relationship("ProductImage", backref="product")
     __tablename__ = 'products'
+
+    def __str__(self):
+        return self.name
 
 
 class ProductImage(BaseModel):
@@ -57,11 +66,17 @@ class ProductAttribute(BaseModel):
     product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
     __tablename__ = 'product_attributes'
 
+    def __str__(self):
+        return self.name
+
 
 class Measure(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     size = db.Column(db.Integer, nullable=False)
     __tablename__ = 'measures'
+
+    def __str__(self):
+        return self.size
 
 
 class ProductMeasure(BaseModel):
