@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from flask.ext.admin.form.upload import thumbgen_filename
 from suittale import db
 from suittale.core import BaseModel, generate_uuid
 import os
@@ -94,3 +95,4 @@ def _handle_prod_thumbnail_delete(mapper, conn, target):
 def _handle_texture_image_delete(mapper, conn, target):
     if target.image:
         os.remove(op.join(base_path, target.image))
+        os.remove(op.join(base_path, thumbgen_filename(target.image)))

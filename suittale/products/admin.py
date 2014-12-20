@@ -26,7 +26,7 @@ class AdminTextureView(AdminBaseView):
 
     form_extra_fields = {
         'image': ImageUploadField('Image',
-                                  base_path=base_path,
+                                  base_path=op.join(base_path, 'uploads'),
                                   thumbnail_size=(100, 100, True))
     }
 
@@ -42,8 +42,7 @@ class AdminTextureView(AdminBaseView):
         file_data = request.files.get(form.image.name)
 
         if file_data:
-            model.image = file_data.filename
-            file_data.save(op.join(base_path, model.image))
+            model.image = 'uploads/' + file_data.filename
 
 
 class AdminProductView(AdminBaseView):
