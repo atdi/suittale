@@ -20,5 +20,6 @@ setup(name='Suit Tale',
                         'pyhamcrest',
                         'tornado',
                         'mysql-connector-python',
-                        'flask-admin'],
+                        'flask-admin',
+                        'pillow'],
      )

@@ -13,3 +13,4 @@ pyhamcrest
 tornado
 mysql-connector-python
 flask-admin
+pillow

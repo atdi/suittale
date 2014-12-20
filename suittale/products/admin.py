@@ -1,14 +1,19 @@
 #!/usr/bin/env python
+from flask.ext.admin.form.upload import ImageUploadField
 
-from suittale.admin_core import AdminBaseView
-from suittale.products.models import Category, Product, Texture
+from suittale.admin_core import AdminBaseView, base_path
+from suittale.products.models import Category, Product, Texture, op
+from wtforms import fields
+from flask import request
 
 
 class AdminCategoryView(AdminBaseView):
     # Override displayed fields
     column_list = ('name', 'creation_date')
 
-    form_excluded_columns = ['version', 'creation_date', 'updated_by', 'parent_id']
+    form_excluded_columns = ['version', 'creation_date',
+                             'updated_by', 'parent_id', 'products']
+
 
     def __init__(self, session, **kwargs):
         # You can pass name and other parameters if you want to
@@ -19,9 +24,26 @@ class AdminTextureView(AdminBaseView):
     # Override displayed fields
     column_list = ('code', 'composition')
 
+    form_extra_fields = {
+        'image': ImageUploadField('Image',
+                                  base_path=base_path,
+                                  thumbnail_size=(100, 100, True))
+    }
+
     def __init__(self, session, **kwargs):
         # You can pass name and other parameters if you want to
         super(AdminTextureView, self).__init__(Texture, session, **kwargs)
+
+    def postprocess_form(self, form_class):
+        form_class.upload = fields.FileField('Image')
+        return form_class
+
+    def on_model_change(self, form, model, is_created):
+        file_data = request.files.get(form.image.name)
+
+        if file_data:
+            model.image = file_data.filename
+            file_data.save(op.join(base_path, model.image))
 
 
 class AdminProductView(AdminBaseView):

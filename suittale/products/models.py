@@ -4,10 +4,7 @@ from suittale.core import BaseModel, generate_uuid
 import os
 import os.path as op
 from sqlalchemy import event
-
-
-# Figure out base upload path
-base_path = op.join(op.dirname(__file__), 'static')
+from suittale.admin_core import base_path
 
 
 class Category(BaseModel):
@@ -23,7 +20,6 @@ class Texture(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     code = db.Column(db.String(50), unique=True, nullable=False)
     composition = db.Column(db.String(100))
-    thumbnail = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(255), nullable=False)
     __tablename__ = 'textures'
 
@@ -96,7 +92,5 @@ def _handle_prod_thumbnail_delete(mapper, conn, target):
 
 @event.listens_for(Texture, 'after_delete')
 def _handle_texture_image_delete(mapper, conn, target):
-    if target.thumbnail:
-        os.remove(op.join(base_path, target.thumbnail))
     if target.image:
         os.remove(op.join(base_path, target.image))
