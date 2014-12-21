@@ -4,7 +4,7 @@ from flask.ext.admin.model.form import InlineFormAdmin
 from flask.helpers import url_for
 from markupsafe import Markup
 from suittale.admin_core import AdminBaseView, base_path
-from suittale.products.models import Category, Product, Texture, op, ProductAttribute, ProductImage
+from .models import Category, Product, Texture, op, ProductAttribute, ProductImage
 from flask import request
 from .constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
 

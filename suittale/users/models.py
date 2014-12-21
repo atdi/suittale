@@ -45,6 +45,9 @@ class User(BaseModel, UserMixin):
         assert '@' in address
         return address
 
+    def __str__(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
 
 class Role(BaseModel, RoleMixin):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
@@ -55,6 +58,9 @@ class Role(BaseModel, RoleMixin):
     def to_dict(self):
         return to_dict(self)
 
+    def __str__(self):
+        return self.name
+
 
 class Country(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,6 +68,9 @@ class Country(BaseModel):
     name = db.Column(db.String(100), unique=True, nullable=False)
     regions = db.relationship("Region", backref="country")
     __tablename__ = 'countries'
+
+    def __str__(self):
+        return self.name
 
 
 class Region(BaseModel):
@@ -72,12 +81,18 @@ class Region(BaseModel):
     cities = db.relationship("City", backref="region")
     __tablename__ = 'regions'
 
+    def __str__(self):
+        return self.name
+
 
 class City(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
     __tablename__ = 'cities'
+
+    def __str__(self):
+        return self.name
 
 
 class Customer(BaseModel):
@@ -95,6 +110,9 @@ class Customer(BaseModel):
     addresses = db.relationship("Address", backref="customer")
     __tablename__ = 'customers'
 
+    def __str__(self):
+        return self.name
+
 
 class Address(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
@@ -106,3 +124,6 @@ class Address(BaseModel):
     city_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
     city = db.relationship(City)
     __tablename__ = 'addresses'
+
+    def __str__(self):
+        return self.contact_person
