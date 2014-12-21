@@ -13,11 +13,12 @@ import os.path as op
 class CreateFoldersCommand(Command):
     def run(self):
         # Create directory for file fields to use
+        uploads_path = op.join(base_path, 'uploads')
         prod_file_path = op.join(base_path, PRODUCTS_IMG_PATH)
         texture_file_path = op.join(base_path, TEXTURES_IMG_PATH)
         try:
-            if not os.path.isdir(base_path):
-                os.mkdir(base_path)
+            if not os.path.isdir(uploads_path):
+                os.mkdir(uploads_path)
             if not os.path.isdir(prod_file_path):
                 os.mkdir(prod_file_path)
             if not os.path.isdir(texture_file_path):

@@ -36,7 +36,6 @@ class Product(BaseModel):
     name = db.Column(db.String(100), nullable=False)
     code = db.Column(db.String(100), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=True)
-    thumbnail = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
     currency = db.Column(db.String(3), default='RON', nullable=False)
     category_id = db.Column(db.String(255), db.ForeignKey('categories.id'), nullable=False)
@@ -53,40 +52,50 @@ class Product(BaseModel):
 class ProductImage(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     name = db.Column(db.String(100), nullable=False)
-    path = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=False)
     default = db.Column(db.Boolean, default=False, nullable=False)
     product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
     __tablename__ = 'product_images'
-
-
-class ProductAttribute(BaseModel):
-    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
-    name = db.Column(db.String(100), nullable=False)
-    value = db.Column(db.String(255), nullable=False)
-    product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
-    __table_args__ = (db.UniqueConstraint('product_id', 'name', name='_product_measure_uc'),)
-    __tablename__ = 'product_attributes'
 
     def __str__(self):
         return self.name
 
 
-class Measure(BaseModel):
+class Attribute(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
-    size = db.Column(db.Integer, nullable=False)
-    __tablename__ = 'measures'
+    name = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.String(255), nullable=False)
+    __tablename__ = 'attributes'
+
+    def __str__(self):
+        return '%s %s' % (self.name, self.value)
+
+
+class ProductAttribute(BaseModel):
+    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
+    attribute_id = db.Column(db.String(255), db.ForeignKey('attributes.id'), nullable=False)
+    product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
+    attribute = db.relationship("Attribute")
+    __table_args__ = (db.UniqueConstraint('product_id', 'attribute_id', name='_product_measure_uc'),)
+    __tablename__ = 'product_attributes'
+
+
+class Size(BaseModel):
+    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
+    size = db.Column(db.String(5), nullable=False)
+    __tablename__ = 'sizes'
 
     def __str__(self):
         return self.size
 
 
-class ProductMeasure(BaseModel):
+class ProductSize(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
-    measure_id = db.Column(db.String(255), db.ForeignKey('measures.id'), nullable=False)
-    number = db.Column(db.Integer, nullable=False)
-    __table_args__ = (db.UniqueConstraint('product_id', 'measure_id', name='_product_measure_uc'),)
-    __tablename__ = 'product_measures'
+    size_id = db.Column(db.String(255), db.ForeignKey('sizes.id'), nullable=False)
+    number = db.Column(db.Integer, nullable=False, default=0)
+    __table_args__ = (db.UniqueConstraint('product_id', 'size_id', name='_product_size_uc'),)
+    __tablename__ = 'product_sizes'
 
 
 """
@@ -100,16 +109,7 @@ def _handle_prod_image_delete(mapper, conn, target):
     try:
         if target.path:
             os.remove(op.join(base_path, target.path))
-    except OSError:
-            # Don't care if was not deleted because it does not exist
-            pass
-
-
-@event.listens_for(Product, 'after_delete')
-def _handle_prod_thumbnail_delete(mapper, conn, target):
-    try:
-        if target.thumbnail:
-            os.remove(op.join(base_path, target.thumbnail))
+            os.remove(op.join(base_path, thumbgen_filename(target.path)))
     except OSError:
             # Don't care if was not deleted because it does not exist
             pass

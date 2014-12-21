@@ -2,7 +2,7 @@
 import os.path as op
 from flask.ext.admin.contrib.sqla import ModelView as SqlaModelView
 
-# Figure out base upload path
+# Figure out base upload image
 base_path = op.join(op.dirname(__file__), 'static')
 
 

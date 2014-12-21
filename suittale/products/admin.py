@@ -4,9 +4,11 @@ from flask.ext.admin.model.form import InlineFormAdmin
 from flask.helpers import url_for
 from markupsafe import Markup
 from suittale.admin_core import AdminBaseView, base_path
-from .models import Category, Product, Texture, op, ProductAttribute, ProductImage
+from .models import Category, Product, Texture, op, \
+    ProductAttribute, ProductImage, Attribute
 from flask import request
 from .constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
+
 
 
 class AdminCategoryView(AdminBaseView):
@@ -20,8 +22,16 @@ class AdminCategoryView(AdminBaseView):
         super(AdminCategoryView, self).__init__(Category, session, **kwargs)
 
 
-class AdminTextureView(AdminBaseView):
+class AdminAttributeView(AdminBaseView):
+    # Override displayed fields
+    column_list = ('name', 'value', 'creation_date')
 
+    def __init__(self, session, **kwargs):
+        # You can pass name and other parameters if you want to
+        super(AdminAttributeView, self).__init__(Attribute, session, **kwargs)
+
+
+class AdminTextureView(AdminBaseView):
     def _list_thumbnail(view, context, model, name):
         if not model.image:
             return ''
@@ -54,35 +64,38 @@ class AdminTextureView(AdminBaseView):
 
 
 class AdminAttributesForm(InlineFormAdmin):
-    form_columns = ('name', 'value')
+    pass
 
 
-class AdminProductImagesForm(InlineFormAdmin):
-    form_columns = ('name', 'path', 'default')
+class AdminProductImagesView(AdminBaseView):
+    form_columns = ('name', 'image', 'product', 'default')
 
     form_extra_fields = {
-        'path': ImageUploadField('Image',
-                                 base_path=op.join(base_path, PRODUCTS_IMG_PATH),
-                                 thumbnail_size=(100, 100, True))
+        'image': ImageUploadField('Image',
+                                  base_path=op.join(base_path, PRODUCTS_IMG_PATH),
+                                  thumbnail_size=(100, 100, True))
     }
+
+    def on_model_change(self, form, model, is_created):
+        file_data = request.files.get(form.image.name)
+
+        if file_data:
+            model.image = PRODUCTS_IMG_PATH + '/' + file_data.filename
+
+    def __init__(self, session, **kwargs):
+        # You can pass name and other parameters if you want to
+        super(AdminProductImagesView, self).__init__(ProductImage, session, **kwargs)
 
 
 class AdminProductView(AdminBaseView):
-    inline_models = (AdminAttributesForm(ProductAttribute),
-                     AdminProductImagesForm(ProductImage))
+    inline_models = (AdminAttributesForm(ProductAttribute),)
 
     # Override displayed fields
     column_list = ('name', 'code')
 
     form_columns = ('name', 'code', 'description',
-                    'thumbnail', 'price', 'category',
-                    'attributes', 'images')
-
-    form_extra_fields = {
-        'thumbnail': ImageUploadField('Image',
-                                      base_path=op.join(base_path, PRODUCTS_IMG_PATH),
-                                      thumbnail_size=(100, 100, True))
-    }
+                    'price', 'category', 'attributes',
+                    'texture')
 
     def __init__(self, session, **kwargs):
         # You can pass name and other parameters if you want to

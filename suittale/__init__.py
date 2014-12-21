@@ -10,7 +10,8 @@ db = SQLAlchemy()
 
 
 # Import admin views after app and db instantiation
-from suittale.products.admin import AdminCategoryView, AdminProductView, AdminTextureView
+from suittale.products.admin import AdminCategoryView, AdminProductView, AdminTextureView, AdminProductImagesView, \
+    AdminAttributeView
 from suittale.users.admin import AdminUserView, AdminRoleView, AdminCountryView, \
     AdminRegionView, AdminCityView, AdminCustomerView
 
@@ -26,7 +27,9 @@ def add_user_admin_views(admin):
 
 def add_prod_admin_views(admin):
     admin.add_view(AdminCategoryView(db.session, category='Magazie'))
+    admin.add_view(AdminAttributeView(db.session, category='Magazie'))
     admin.add_view(AdminProductView(db.session, category='Magazie'))
+    admin.add_view(AdminProductImagesView(db.session, category='Magazie'))
     admin.add_view(AdminTextureView(db.session, category='Magazie'))
 
 
