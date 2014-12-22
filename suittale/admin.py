@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 from flask.ext.admin.base import AdminIndexView, expose
+from flask.ext.admin import helpers
 from flask.ext.security import current_user, login_user
 from flask.ext.security.forms import LoginForm
-from flask import url_for, request, helpers
+from flask import url_for, request
 from werkzeug.utils import redirect
 
 

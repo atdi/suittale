@@ -43,6 +43,7 @@ class Product(BaseModel):
     texture = db.relationship(Texture)
     attributes = db.relationship("ProductAttribute", backref="product")
     images = db.relationship("ProductImage", backref="product")
+    sizes = db.relationship("ProductSize", backref="product")
     __tablename__ = 'products'
 
     def __str__(self):
@@ -93,6 +94,7 @@ class ProductSize(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
     size_id = db.Column(db.String(255), db.ForeignKey('sizes.id'), nullable=False)
+    size = db.relationship("Size")
     number = db.Column(db.Integer, nullable=False, default=0)
     __table_args__ = (db.UniqueConstraint('product_id', 'size_id', name='_product_size_uc'),)
     __tablename__ = 'product_sizes'

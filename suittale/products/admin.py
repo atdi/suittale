@@ -8,7 +8,7 @@ from .models import Category, Product, Texture, op, \
     ProductAttribute, ProductImage, Attribute
 from flask import request
 from .constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
-
+from suittale.products.models import Size, ProductSize
 
 
 class AdminCategoryView(AdminBaseView):
@@ -67,6 +67,10 @@ class AdminAttributesForm(InlineFormAdmin):
     pass
 
 
+class AdminSizesForm(InlineFormAdmin):
+    form_excluded_columns = ['version', 'creation_date', 'updated_by']
+
+
 class AdminProductImagesView(AdminBaseView):
     form_columns = ('name', 'image', 'product', 'default')
 
@@ -88,7 +92,8 @@ class AdminProductImagesView(AdminBaseView):
 
 
 class AdminProductView(AdminBaseView):
-    inline_models = (AdminAttributesForm(ProductAttribute),)
+    inline_models = (AdminAttributesForm(ProductAttribute),
+                     AdminSizesForm(ProductSize))
 
     # Override displayed fields
     column_list = ('name', 'code')
@@ -102,3 +107,10 @@ class AdminProductView(AdminBaseView):
         super(AdminProductView, self).__init__(Product, session, **kwargs)
 
 
+
+class AdminSizeView(AdminBaseView):
+    column_list = ('size', 'creation_date')
+
+    def __init__(self, session, **kwargs):
+        # You can pass name and other parameters if you want to
+        super(AdminSizeView, self).__init__(Size, session, **kwargs)
