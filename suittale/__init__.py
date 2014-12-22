@@ -3,7 +3,6 @@ from flask.app import Flask
 from flask.ext.admin.base import Admin
 from flask.ext.restless.manager import APIManager
 from flask.ext.sqlalchemy import SQLAlchemy
-from suittale.admin import SuittaleAdminIndexView
 
 app = Flask(__name__)
 db = SQLAlchemy()
@@ -16,18 +15,25 @@ from suittale.users.admin import AdminUserView, AdminRoleView, AdminCountryView,
     AdminRegionView, AdminCityView, AdminCustomerView
 
 
-from flask.ext.login import LoginManager
-from suittale.users.models import User
+from suittale.admin import SuittaleAdminIndexView
+from flask.ext.security.datastore import SQLAlchemyUserDatastore
+from suittale.users.models import User, Role
+from flask.ext.security.core import Security
 
+
+# Setup Flask-Security
 # Initialize flask-login
 def init_login(app):
-    login_manager = LoginManager()
-    login_manager.init_app(app)
+    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+    security = Security(app, user_datastore)
+    #login_manager = LoginManager()
+    #login_manager.init_app(app)
 
     # Create user loader function
-    @login_manager.user_loader
-    def load_user(user_id):
-        return db.session.query(User).get(user_id)
+    #@login_manager.user_loader
+    #def load_user(user_id):
+    #    return db.session.query(User).get(user_id)
+
 
 def add_user_admin_views(admin):
     admin.add_view(AdminUserView(db.session, category='Admin'))

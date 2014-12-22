@@ -33,8 +33,15 @@ class User(BaseModel, UserMixin):
     customer = db.relationship('Customer')
     __tablename__ = 'users'
 
+    # Flask-Login integration
+    def is_authenticated(self):
+        return True
+
     def is_active(self):
         return self.active
+
+    def is_anonymous(self):
+        return False
 
     def get_id(self):
         return self.id

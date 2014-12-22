@@ -5,6 +5,7 @@ from flask.ext.security import current_user, login_user
 from flask.ext.security.forms import LoginForm
 from flask import url_for, request
 from werkzeug.utils import redirect
+from suittale.users.models import User
 
 
 class SuittaleAdminIndexView(AdminIndexView):
@@ -20,7 +21,7 @@ class SuittaleAdminIndexView(AdminIndexView):
         # handle user login
         form = LoginForm(request.form)
         if helpers.validate_form_on_submit(form):
-            user = form.get_user()
+            user = User.query.filter_by(email=form.data['email'], password=form.data['password']).first()
             login_user(user)
 
         if current_user.is_authenticated():
