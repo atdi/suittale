@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 from flask.ext.admin.base import AdminIndexView, expose
 from flask.ext.admin import helpers
-from flask.ext.security import current_user, login_user
+from flask.ext.admin.menu import MenuLink
+from flask.ext.security import current_user, login_user, logout_user
 from flask.ext.security.forms import LoginForm
 from flask import url_for, request
 from werkzeug.utils import redirect
@@ -28,3 +29,15 @@ class SuittaleAdminIndexView(AdminIndexView):
             return redirect(url_for('.index'))
         self._template_args['form'] = form
         return super(SuittaleAdminIndexView, self).index()
+
+    @expose('/logout/')
+    def logout_view(self):
+        logout_user()
+        return redirect(url_for('.index'))
+
+
+# Create menu links classes with reloaded accessible
+class AuthenticatedMenuLink(MenuLink):
+
+    def is_accessible(self):
+        return current_user.is_authenticated()

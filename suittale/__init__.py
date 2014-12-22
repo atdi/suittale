@@ -15,7 +15,7 @@ from suittale.users.admin import AdminUserView, AdminRoleView, AdminCountryView,
     AdminRegionView, AdminCityView, AdminCustomerView
 
 
-from suittale.admin import SuittaleAdminIndexView
+from suittale.admin import SuittaleAdminIndexView, AuthenticatedMenuLink
 from flask.ext.security.datastore import SQLAlchemyUserDatastore
 from suittale.users.models import User, Role
 from flask.ext.security.core import Security
@@ -61,7 +61,10 @@ from .errors import *
 def init_app(settings='suittale.config'):
     app.config.from_object(settings)
     db.init_app(app)
-    admin = Admin(app, index_view=SuittaleAdminIndexView())
+    admin = Admin(app, index_view=SuittaleAdminIndexView(), template_mode='bootstrap3')
+    # Add logout link by endpoint
+    admin.add_link(AuthenticatedMenuLink(name='Logout',
+                                         url='logout'))
     add_user_admin_views(admin)
     add_prod_admin_views(admin)
     init_login(app)
