@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask.app import Flask
+from flask import Flask, url_for
 from flask.ext.admin.base import Admin
 from flask.ext.restless.manager import APIManager
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -61,10 +61,10 @@ from .errors import *
 def init_app(settings='suittale.config'):
     app.config.from_object(settings)
     db.init_app(app)
-    admin = Admin(app, index_view=SuittaleAdminIndexView(), template_mode='bootstrap3')
+    admin = Admin(app, index_view=SuittaleAdminIndexView(), template_mode='bootstrap2')
     # Add logout link by endpoint
     admin.add_link(AuthenticatedMenuLink(name='Logout',
-                                         url='logout'))
+                                         url='/admin/logout'))
     add_user_admin_views(admin)
     add_prod_admin_views(admin)
     init_login(app)

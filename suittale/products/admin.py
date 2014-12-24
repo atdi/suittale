@@ -64,7 +64,7 @@ class AdminTextureView(AdminBaseView):
 
 
 class AdminAttributesForm(InlineFormAdmin):
-    pass
+    form_excluded_columns = ['version', 'creation_date', 'updated_by']
 
 
 class AdminSizesForm(InlineFormAdmin):
