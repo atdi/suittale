@@ -25,14 +25,7 @@ from flask.ext.security.core import Security
 # Initialize flask-login
 def init_login(app):
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    security = Security(app, user_datastore)
-    #login_manager = LoginManager()
-    #login_manager.init_app(app)
-
-    # Create user loader function
-    #@login_manager.user_loader
-    #def load_user(user_id):
-    #    return db.session.query(User).get(user_id)
+    return Security(app, user_datastore)
 
 
 def add_user_admin_views(admin):
