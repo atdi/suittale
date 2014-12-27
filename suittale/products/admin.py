@@ -72,6 +72,17 @@ class AdminSizesForm(InlineFormAdmin):
 
 
 class AdminProductImagesView(AdminBaseView):
+    def _list_thumbnail(view, context, model, name):
+        if not model.image:
+            return ''
+
+        return Markup('<img src="%s">' % url_for('static',
+                                                 filename=thumbgen_filename(model.image)))
+
+    column_formatters = {
+        'image': _list_thumbnail
+    }
+
     form_columns = ('name', 'image', 'product', 'default')
 
     form_extra_fields = {
