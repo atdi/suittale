@@ -8,12 +8,24 @@ from sqlalchemy import event
 from suittale.admin_core import base_path
 
 
+product_categories = db.Table('product_categories', BaseModel.metadata,
+                              db.Column('category_id', db.String(255), db.ForeignKey('categories.id')),
+                              db.Column('product_id', db.String(255), db.ForeignKey('products.id')))
+
+product_textures = db.Table('product_textures', BaseModel.metadata,
+                              db.Column('texture_id', db.String(255), db.ForeignKey('textures.id')),
+                              db.Column('product_id', db.String(255), db.ForeignKey('products.id')))
+
+product_sizes = db.Table('product_sizes', BaseModel.metadata,
+                              db.Column('size_id', db.String(255), db.ForeignKey('sizes.id')),
+                              db.Column('product_id', db.String(255), db.ForeignKey('products.id')))
+
+
 class Category(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     name = db.Column(db.String(100), unique=True, nullable=False)
     template = db.Column(db.Text, nullable=True)
     parent_id = db.Column(db.String(255), nullable=True)
-    products = db.relationship("Product", backref="category")
     __tablename__ = 'categories'
 
     def __str__(self):
@@ -35,15 +47,14 @@ class Product(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     name = db.Column(db.String(100), nullable=False)
     code = db.Column(db.String(100), unique=True, nullable=False)
-    description = db.Column(db.String(255), nullable=True)
+    short_description = db.Column(db.String(255), nullable=True)
     price = db.Column(db.Float, nullable=False)
     currency = db.Column(db.String(3), default='RON', nullable=False)
-    category_id = db.Column(db.String(255), db.ForeignKey('categories.id'), nullable=False)
-    texture_id = db.Column(db.String(255), db.ForeignKey('textures.id'), nullable=False)
-    texture = db.relationship(Texture)
     attributes = db.relationship("ProductAttribute", backref="product")
     images = db.relationship("ProductImage", backref="product")
-    sizes = db.relationship("ProductSize", backref="product")
+    sizes = db.relationship('Size', secondary=product_sizes, backref=db.backref('products', lazy='dynamic'))
+    categories = db.relationship('Category', secondary=product_categories, backref=db.backref('products', lazy='dynamic'))
+    textures = db.relationship('Texture', secondary=product_textures, backref=db.backref('products', lazy='dynamic'))
     __tablename__ = 'products'
 
     def __str__(self):
@@ -65,7 +76,7 @@ class ProductImage(BaseModel):
 class Attribute(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     name = db.Column(db.String(100), nullable=False)
-    value = db.Column(db.String(255), nullable=False)
+    code = db.Column(db.String(100), nullable=False, unique=True)
     __tablename__ = 'attributes'
 
     def __str__(self):
@@ -74,6 +85,7 @@ class Attribute(BaseModel):
 
 class ProductAttribute(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
+    value = db.Column(db.String(255), nullable=False)
     attribute_id = db.Column(db.String(255), db.ForeignKey('attributes.id'), nullable=False)
     product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
     attribute = db.relationship("Attribute")
@@ -88,16 +100,6 @@ class Size(BaseModel):
 
     def __str__(self):
         return self.size
-
-
-class ProductSize(BaseModel):
-    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
-    product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
-    size_id = db.Column(db.String(255), db.ForeignKey('sizes.id'), nullable=False)
-    size = db.relationship("Size")
-    number = db.Column(db.Integer, nullable=False, default=0)
-    __table_args__ = (db.UniqueConstraint('product_id', 'size_id', name='_product_size_uc'),)
-    __tablename__ = 'product_sizes'
 
 
 """

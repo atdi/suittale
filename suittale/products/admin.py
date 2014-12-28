@@ -5,10 +5,9 @@ from flask.helpers import url_for
 from markupsafe import Markup
 from suittale.admin_core import AdminBaseView, base_path
 from .models import Category, Product, Texture, op, \
-    ProductAttribute, ProductImage, Attribute
+    ProductAttribute, ProductImage, Attribute, Size
 from flask import request
 from .constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
-from suittale.products.models import Size, ProductSize
 
 
 class AdminCategoryView(AdminBaseView):
@@ -67,10 +66,6 @@ class AdminAttributesForm(InlineFormAdmin):
     form_excluded_columns = ['version', 'creation_date', 'updated_by']
 
 
-class AdminSizesForm(InlineFormAdmin):
-    form_excluded_columns = ['version', 'creation_date', 'updated_by']
-
-
 class AdminProductImagesView(AdminBaseView):
     def _list_thumbnail(view, context, model, name):
         if not model.image:
@@ -103,15 +98,14 @@ class AdminProductImagesView(AdminBaseView):
 
 
 class AdminProductView(AdminBaseView):
-    inline_models = (AdminAttributesForm(ProductAttribute),
-                     AdminSizesForm(ProductSize))
+    inline_models = (AdminAttributesForm(ProductAttribute),)
 
     # Override displayed fields
     column_list = ('name', 'code')
 
-    form_columns = ('name', 'code', 'description',
-                    'price', 'category', 'attributes',
-                    'texture')
+    form_columns = ('name', 'code', 'short_description',
+                    'price', 'categories', 'textures',
+                    'sizes', 'attributes')
 
     def __init__(self, session, **kwargs):
         # You can pass name and other parameters if you want to

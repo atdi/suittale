@@ -12,10 +12,9 @@ class Order(BaseModel):
     __tablename__ = 'orders'
 
 
-
 class OrderProduct(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     product_id = db.Column(db.String(255), nullable=False)
     order_id = db.Column(db.String(255), nullable=False)
-    number = db.Column(db.Integer, default=1)
     __tablename__ = 'order_products'
+

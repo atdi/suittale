@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import os.path as op
 from flask.ext.admin.contrib.sqla import ModelView as SqlaModelView
-from flask import url_for
 from werkzeug.utils import redirect
 from flask.ext.security import current_user
 
