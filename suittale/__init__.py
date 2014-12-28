@@ -49,6 +49,7 @@ def add_prod_admin_views(admin):
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)
 from .views import *
 from .errors import *
+from suittale.products.views import *
 
 
 def init_app(settings='suittale.config'):
