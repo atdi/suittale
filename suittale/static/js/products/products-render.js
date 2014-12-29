@@ -3,11 +3,11 @@
  */
 var ProductList = React.createClass({
   render: function() {
-    var productNodes = this.state.data.map(function (product) {
+    var productNodes = this.props.data.map(function (product) {
       return (
-        <Comment author={product.name}>
+        <Product name={product.name}>
           {product.short_description}
-        </Comment>
+        </Product>
       );
     });
     return (
