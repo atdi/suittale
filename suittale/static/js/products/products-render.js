@@ -27,7 +27,9 @@ function ProductsRender() {
 
     this.getProducts = function() {
         $.when(getProducts).done(function(data) {
-            renderTemplate(data.objects);
+            if (data != null && data.num_results > 0) {
+                renderTemplate(data.objects);
+            }
         });
     }
 };
