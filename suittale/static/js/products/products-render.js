@@ -1,52 +1,20 @@
 /**
  * Created by aurel on 12/29/14.
  */
-var ProductList = React.createClass({
-  render: function() {
-    var productNodes = this.props.data.map(function (product) {
-      return (
-        <Product name={product.name}>
-          {product.short_description}
-        </Product>
-      );
-    });
-    return (
-      <div className="productList">
-        {productNodes}
-      </div>
-    );
-  }
-});
 
-var ProductBox = React.createClass({
-  loadProductsFromServer: function() {
-    $.ajax({
-      url: this.props.url,
+$.ajax({
+      url: '/api/products',
       dataType: 'json',
       success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    this.loadProductsFromServer();
-  },
-  render: function() {
-    return (
-      <div className="productBox">
-        <ProductList data={this.state.data} />
-      </div>
-    );
-  }
-});
+        console.log(data);
+        var Products = new Ractive({
+                          el: '#example',
+                          template: '{{#products}}<div class="col-sm-6"><p>{{name}}</p><img src="/static/{{image}}" width="200" height="400"/></div>{{/products}}',
+                          data: {products: data.objects}
+                        });
 
-React.render(
-            <ProductBox url="/api/products" />,
-            document.getElementById('example')
-);
+      },
+      error: function(xhr, status, err) {
+        console.error('/api/products', status, err.toString());
+      }
+    });

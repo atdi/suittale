@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from flask.ext.admin.form.upload import thumbgen_filename
+from sqlalchemy.ext.hybrid import hybrid_property
 from suittale import db
 from suittale.core import BaseModel, generate_uuid
 import os
@@ -56,6 +57,12 @@ class Product(BaseModel):
     categories = db.relationship('Category', secondary=product_categories, backref=db.backref('products', lazy='dynamic'))
     textures = db.relationship('Texture', secondary=product_textures, backref=db.backref('products', lazy='dynamic'))
     __tablename__ = 'products'
+
+    @hybrid_property
+    def image(self):
+        img = ProductImage.query.filter_by(product_id=self.id, default=True).first()
+        if img:
+            return img.image
 
     def __str__(self):
         return self.name
