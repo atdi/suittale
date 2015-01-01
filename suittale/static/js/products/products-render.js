@@ -1,20 +1,37 @@
 /**
  * Created by aurel on 12/29/14.
  */
-
-$.ajax({
-      url: '/api/products',
-      dataType: 'json',
-      success: function(data) {
-        console.log(data);
-        var Products = new Ractive({
-                          el: '#example',
-                          template: '{{#products}}<div class="col-sm-6"><p>{{name}}</p><img src="/static/{{image}}" width="200" height="400"/></div>{{/products}}',
-                          data: {products: data.objects}
+function ProductsRender() {
+    var url = '/api/products';
+    var getProducts = $.ajax({
+                          url: '/api/products',
+                          dataType: 'json',
+                          type: 'GET'
                         });
+    var templatePath = "/static/templates/products/_productList.tmpl.html";
+    var templateContent = $.get(templatePath);
 
-      },
-      error: function(xhr, status, err) {
-        console.error('/api/products', status, err.toString());
-      }
-    });
+    var renderProducts = function(templateContent, data) {
+        this.products = new Ractive({
+                          el: '#example',
+                          template: templateContent,
+                          data: { products: data }
+                        });
+    }
+
+    var renderTemplate = function(data) {
+        $.when(templateContent).done(function(templateContent) {
+            renderProducts(templateContent, data);
+        });
+    }
+
+    this.getProducts = function() {
+        $.when(getProducts).done(function(data) {
+            if (data != null && data.num_results > 0) {
+                renderTemplate(data.objects);
+            }
+        });
+    }
+};
+
+(new ProductsRender()).getProducts();

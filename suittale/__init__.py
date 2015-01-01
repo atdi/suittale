@@ -8,13 +8,6 @@ app = Flask(__name__)
 db = SQLAlchemy()
 
 
-# Import admin views after app and db instantiation
-from suittale.products.admin import AdminCategoryView, AdminProductView, AdminTextureView, AdminProductImagesView, \
-    AdminAttributeView, AdminSizeView
-from suittale.users.admin import AdminUserView, AdminRoleView, AdminCountryView, \
-    AdminRegionView, AdminCityView, AdminCustomerView
-
-
 from suittale.admin import SuittaleAdminIndexView, AuthenticatedMenuLink
 from flask.ext.security.datastore import SQLAlchemyUserDatastore
 from suittale.users.models import User, Role
@@ -26,6 +19,13 @@ from flask.ext.security.core import Security
 def init_login(app):
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
     return Security(app, user_datastore)
+
+
+# Import admin views after app and db instantiation
+from suittale.products.admin import AdminCategoryView, AdminProductView, AdminTextureView, AdminProductImagesView, \
+    AdminAttributeView, AdminSizeView
+from suittale.users.admin import AdminUserView, AdminRoleView, AdminCountryView, \
+    AdminRegionView, AdminCityView, AdminCustomerView
 
 
 def add_user_admin_views(admin):
@@ -47,9 +47,7 @@ def add_prod_admin_views(admin):
 
 
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)
-from .views import *
-from .errors import *
-from suittale.products.views import *
+
 
 
 def init_app(settings='suittale.config'):
@@ -62,3 +60,7 @@ def init_app(settings='suittale.config'):
     add_user_admin_views(admin)
     add_prod_admin_views(admin)
     init_login(app)
+    from .views import index, about, man_suites
+    #from .errors import *
+    from suittale.products.views import create_api
+    create_api(rest_manager)
