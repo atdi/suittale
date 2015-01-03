@@ -2,14 +2,16 @@
 {% block title %}Marios ProdConf - Costume Barbatesti{% endblock %}
 {% block main %}
 <div class="row">
-            <div class="box" id="content" style="background-color: #204d74 !important;">
+            <div class="box" id="content">
                 <div class="col-sm-4">
-                    <canvas id="canvas" height="500" width="320">
-                    <img src="{{ url_for('static', filename='img/measures/suit.png') }}" id="suit"/>
+                    <canvas id="canvas" width="331" height="504">
                     </canvas>
+                    <img src="{{ url_for('static', filename='img/measures/suit.png') }}" id="suit" style="display: none;"/>
 
                 </div>
-                <div class="col-sm-8">
+                <div class="col-lg-8">
+                    <h2>Tabel masuri</h2>
+                    <a id="42" name="measure">42</a><a id="44" name="measure">44</a>
                 </div>
             </div>
 </div>
