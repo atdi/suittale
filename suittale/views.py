@@ -16,3 +16,8 @@ def about():
 @app.route("/msuites")
 def man_suites():
     return render_template('mensuits.html')
+
+
+@app.route("/suitmeasures")
+def suit_measures():
+    return render_template('suit-measures.html')

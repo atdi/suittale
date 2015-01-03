@@ -13,7 +13,7 @@ function ProductsRender() {
 
     var renderProducts = function(templateContent, data) {
         this.products = new Ractive({
-                          el: '#example',
+                          el: '#content',
                           template: templateContent,
                           data: { products: data }
                         });

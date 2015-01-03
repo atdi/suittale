@@ -60,7 +60,7 @@ def init_app(settings='suittale.config'):
     add_user_admin_views(admin)
     add_prod_admin_views(admin)
     init_login(app)
-    from .views import index, about, man_suites
+    from .views import index, about, man_suites, suit_measures
     #from .errors import *
     from suittale.products.views import create_api
     create_api(rest_manager)

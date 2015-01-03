@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Marios ProdConf - Costume Barbatesti{% endblock %}
+{% block main %}
+<div class="row">
+            <div class="box" id="content" style="background-color: #204d74 !important;">
+                <div class="col-sm-4">
+                    <canvas id="canvas" height="500" width="320">
+                    <img src="{{ url_for('static', filename='img/measures/suit.png') }}" id="suit"/>
+                    </canvas>
+
+                </div>
+                <div class="col-sm-8">
+                </div>
+            </div>
+</div>
+{% endblock %}
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/graphics/paper-full.js') }}"></script>
+    <script type="text/paperscript" canvas="canvas" src="{{ url_for('static', filename='js/graphics/measures-guide.js') }}"></script>
+{% endblock %}
