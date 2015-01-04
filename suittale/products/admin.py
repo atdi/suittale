@@ -8,6 +8,7 @@ from .models import Category, Product, Texture, op, \
     ProductAttribute, ProductImage, Attribute, Size
 from flask import request
 from .constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
+from suittale.products.models import SizeValues
 
 
 class AdminCategoryView(AdminBaseView):
@@ -112,10 +113,21 @@ class AdminProductView(AdminBaseView):
         super(AdminProductView, self).__init__(Product, session, **kwargs)
 
 
-
 class AdminSizeView(AdminBaseView):
-    column_list = ('size', 'creation_date')
+    column_list = ('size', 'creation_date', 'size_type')
+
+    form_choices = {'size_type': [
+        ('MAN', 'Barbati'),
+        ('WOMAN', 'Femei'),
+    ]}
 
     def __init__(self, session, **kwargs):
         # You can pass name and other parameters if you want to
         super(AdminSizeView, self).__init__(Size, session, **kwargs)
+
+
+class AdminSizeValuesView(AdminBaseView):
+
+    def __init__(self, session, **kwargs):
+        # You can pass name and other parameters if you want to
+        super(AdminSizeValuesView, self).__init__(SizeValues, session, **kwargs)

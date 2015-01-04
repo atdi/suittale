@@ -7,7 +7,6 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 db = SQLAlchemy()
 
-
 from suittale.admin import SuittaleAdminIndexView, AuthenticatedMenuLink
 from flask.ext.security.datastore import SQLAlchemyUserDatastore
 from suittale.users.models import User, Role
@@ -21,14 +20,10 @@ def init_login(app):
     return Security(app, user_datastore)
 
 
-# Import admin views after app and db instantiation
-from suittale.products.admin import AdminCategoryView, AdminProductView, AdminTextureView, AdminProductImagesView, \
-    AdminAttributeView, AdminSizeView
-from suittale.users.admin import AdminUserView, AdminRoleView, AdminCountryView, \
-    AdminRegionView, AdminCityView, AdminCustomerView
-
-
 def add_user_admin_views(admin):
+    from suittale.users.admin import AdminUserView, AdminRoleView, AdminCountryView, \
+        AdminRegionView, AdminCityView, AdminCustomerView
+
     admin.add_view(AdminUserView(db.session, category='Admin'))
     admin.add_view(AdminRoleView(db.session, category='Admin'))
     admin.add_view(AdminCountryView(db.session, category='Admin'))
@@ -38,16 +33,19 @@ def add_user_admin_views(admin):
 
 
 def add_prod_admin_views(admin):
+    from suittale.products.admin import AdminCategoryView, AdminProductView, AdminTextureView, AdminProductImagesView, \
+        AdminAttributeView, AdminSizeView, AdminSizeValuesView
+
     admin.add_view(AdminCategoryView(db.session, category='Produse'))
     admin.add_view(AdminAttributeView(db.session, category='Produse'))
     admin.add_view(AdminSizeView(db.session, category='Produse'))
     admin.add_view(AdminProductView(db.session, category='Produse'))
     admin.add_view(AdminProductImagesView(db.session, category='Produse'))
     admin.add_view(AdminTextureView(db.session, category='Produse'))
+    admin.add_view(AdminSizeValuesView(db.session, category='Produse'))
 
 
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)
-
 
 
 def init_app(settings='suittale.config'):
@@ -61,6 +59,7 @@ def init_app(settings='suittale.config'):
     add_prod_admin_views(admin)
     init_login(app)
     from .views import index, about, man_suites, suit_measures
-    #from .errors import *
+    # from .errors import *
     from suittale.products.views import create_api
+
     create_api(rest_manager)

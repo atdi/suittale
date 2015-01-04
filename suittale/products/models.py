@@ -101,24 +101,31 @@ class ProductAttribute(BaseModel):
 class Size(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     size = db.Column(db.String(5), nullable=False)
+    size_type = db.Column(db.String(10), nullable=False)
     __tablename__ = 'sizes'
 
     def __str__(self):
-        return self.size
+        return '%s %s' (self.size, self.size_type)
 
-"""
+
 class SizeValues(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     size_id = db.Column(db.String(255), db.ForeignKey('sizes.id'), nullable=False)
-    shoulders = '42-43'
-    chest = '96-97'
-    waist = '75-78'
-    hips = '92-94',
-    inside_leg = '88'
-    external_leg = '109'
-    coat_length = '76',
-    sleeve = '63'
-"""
+    size = db.relationship(Size)
+    shoulders = db.Column(db.String(20), nullable=False)
+    chest = db.Column(db.String(20), nullable=False)
+    waist = db.Column(db.String(20), nullable=False)
+    hips = db.Column(db.String(20), nullable=False)
+    inside_leg = db.Column(db.String(20), nullable=False)
+    external_leg = db.Column(db.String(20), nullable=False)
+    coat_length = db.Column(db.String(20), nullable=False)
+    sleeve = db.Column(db.String(20), nullable=False)
+    __tablename__ = 'size_values'
+
+    def __str__(self):
+        return '%s %s' (self.size.size, self.size.size_type)
+
+
 """
 Event listeners
 """
