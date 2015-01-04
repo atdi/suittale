@@ -104,7 +104,7 @@ class AdminProductView(AdminBaseView):
     column_list = ('name', 'code')
 
     form_columns = ('name', 'code', 'short_description',
-                    'price', 'categories', 'textures',
+                    'price', 'categories', 'texture',
                     'sizes', 'attributes')
 
     def __init__(self, session, **kwargs):

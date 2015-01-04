@@ -1,15 +1,15 @@
 /**
  * Created by aurel on 1/3/15.
  */
-function getSuitMeasures(size) {
+function getManSuitMeasures(size) {
     if(size == 42) {
         return {shoulders: '42-43',
                 chest: '96-97',
                 waist: '75-78',
                 hips: '92-94',
-                insideLeg: '88',
-                externalLeg: '109',
-                coatLength: '76',
+                inside_leg: '88',
+                external_leg: '109',
+                coat_length: '76',
                 sleeve: '63'
         };
     }
@@ -19,9 +19,9 @@ function getSuitMeasures(size) {
                 chest: '98-99',
                 waist: '79-82',
                 hips: '95-97',
-                insideLeg: '88',
-                externalLeg: '110',
-                coatLength: '76,5',
+                inside_leg: '88',
+                external_leg: '110',
+                coat_length: '76,5',
                 sleeve: '63,5'
         };
     }
@@ -31,9 +31,9 @@ function getSuitMeasures(size) {
                 chest: '100-101',
                 waist: '82-86',
                 hips: '98-100',
-                insideLeg: '88',
-                externalLeg: '111',
-                coatLength: '77',
+                inside_leg: '88',
+                external_leg: '111',
+                coat_length: '77',
                 sleeve: '64'
         };
     }
@@ -43,9 +43,9 @@ function getSuitMeasures(size) {
                 chest: '102-103',
                 waist: '87-90',
                 hips: '101-103',
-                insideLeg: '89',
-                externalLeg: '111',
-                coatLength: '77,5',
+                inside_leg: '89',
+                external_leg: '111',
+                coat_length: '77,5',
                 sleeve: '64,5'
         };
     }
@@ -54,9 +54,9 @@ function getSuitMeasures(size) {
                 chest: '2',
                 waist: '3',
                 hips: '4',
-                insideLeg: '5',
-                externalLeg: '6',
-                coatLength: '7',
+                inside_leg: '5',
+                external_leg: '6',
+                coat_length: '7',
                 sleeve: '8'
         };
 
@@ -146,14 +146,14 @@ function MeasuresGraphics() {
     };
 
     this.drawSuitNumbers = function(size) {
-        var suitMeasures = getSuitMeasures(size);
+        var suitMeasures = getManSuitMeasures(size);
         this.values = {shoulders: drawText(suitMeasures.shoulders, new Point(260, 114)),
                 chest: drawText(suitMeasures.chest, new Point(260, 146)),
                 waist: drawText(suitMeasures.waist, new Point(260, 221)),
                 hips: drawText(suitMeasures.hips, new Point(260, 276)),
-                insideLeg: drawText(suitMeasures.insideLeg, new Point(260, 396)),
-                externalLeg: drawText(suitMeasures.externalLeg, new Point(44, 396)),
-                coatLength: drawText(suitMeasures.coatLength, new Point(44, 186)),
+                insideLeg: drawText(suitMeasures.inside_leg, new Point(260, 396)),
+                externalLeg: drawText(suitMeasures.external_leg, new Point(44, 396)),
+                coatLength: drawText(suitMeasures.coat_length, new Point(44, 186)),
                 sleeve: drawText(suitMeasures.sleeve, new Point(44, 136))
         }
     };

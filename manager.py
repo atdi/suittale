@@ -28,7 +28,7 @@ class CreateFoldersCommand(Command):
         except OSError as err:
             print("OS error: {0}".format(err))
 
-init_app()
+init_app('suittale.local_config')
 
 
 # Command for initial database creation

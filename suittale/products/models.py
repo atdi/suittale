@@ -13,9 +13,6 @@ product_categories = db.Table('product_categories', BaseModel.metadata,
                               db.Column('category_id', db.String(255), db.ForeignKey('categories.id')),
                               db.Column('product_id', db.String(255), db.ForeignKey('products.id')))
 
-product_textures = db.Table('product_textures', BaseModel.metadata,
-                              db.Column('texture_id', db.String(255), db.ForeignKey('textures.id')),
-                              db.Column('product_id', db.String(255), db.ForeignKey('products.id')))
 
 product_sizes = db.Table('product_sizes', BaseModel.metadata,
                               db.Column('size_id', db.String(255), db.ForeignKey('sizes.id')),
@@ -51,11 +48,12 @@ class Product(BaseModel):
     short_description = db.Column(db.String(255), nullable=True)
     price = db.Column(db.Float, nullable=False)
     currency = db.Column(db.String(3), default='RON', nullable=False)
+    texture_id = db.Column(db.String(255), db.ForeignKey('textures.id'), nullable=False)
     attributes = db.relationship("ProductAttribute", backref="product")
     images = db.relationship("ProductImage", backref="product")
     sizes = db.relationship('Size', secondary=product_sizes, backref=db.backref('products', lazy='dynamic'))
     categories = db.relationship('Category', secondary=product_categories, backref=db.backref('products', lazy='dynamic'))
-    textures = db.relationship('Texture', secondary=product_textures, backref=db.backref('products', lazy='dynamic'))
+    texture = db.relationship('Texture')
     __tablename__ = 'products'
 
     @hybrid_property
@@ -108,7 +106,19 @@ class Size(BaseModel):
     def __str__(self):
         return self.size
 
-
+"""
+class SizeValues(BaseModel):
+    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
+    size_id = db.Column(db.String(255), db.ForeignKey('sizes.id'), nullable=False)
+    shoulders = '42-43'
+    chest = '96-97'
+    waist = '75-78'
+    hips = '92-94',
+    inside_leg = '88'
+    external_leg = '109'
+    coat_length = '76',
+    sleeve = '63'
+"""
 """
 Event listeners
 """
