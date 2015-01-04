@@ -137,7 +137,6 @@ function MeasuresGraphics() {
         for(var key in this.values){
             this.values[key].remove();
         }
-        raster.refresh();
     }
 
     this.drawSuitLines = function() {
