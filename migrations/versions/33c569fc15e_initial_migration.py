@@ -180,7 +180,7 @@ def upgrade():
                     sa.Column('first_name', sa.String(length=50), nullable=False),
                     sa.Column('last_name', sa.String(length=50), nullable=False),
                     sa.Column('phone', sa.String(length=14), nullable=False),
-                    sa.Column('birth_date', sa.Date(), nullable=False),
+                    sa.Column('birth_date', sa.Date(), nullable=True),
                     sa.Column('email', sa.String(length=50), nullable=False),
                     sa.Column('password', sa.String(length=20), nullable=False),
                     sa.Column('active', sa.Boolean(), nullable=True),

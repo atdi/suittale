@@ -54,5 +54,25 @@ def test():
     unittest.TextTestRunner(verbosity=2).run(tests)
 
 
+@manager.option('-e', '--email', dest='email')
+@manager.option('-fn', '--first_name', dest='first_name')
+@manager.option('-ln', '--last_name', dest='last_name')
+@manager.option('-ph', '--phone', dest='phone')
+@manager.option('-p', '--password', dest='password')
+def create_admin_user(email, first_name, last_name, phone, password):
+    from suittale.users.models import User, Role
+    role = Role.query.filter_by(name='ADMINISTRATOR').first()
+    user = User()
+    user.admin = True
+    user.active = True
+    user.first_name = first_name
+    user.last_name = last_name
+    user.password = password
+    user.phone= phone
+    user.email = email
+    user.roles.append(role)
+    user.save()
+
+
 if __name__ == '__main__':
     manager.run()
