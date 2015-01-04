@@ -26,6 +26,30 @@ function getSuitMeasures(size) {
         };
     }
 
+    if(size == 46) {
+        return {shoulders: '45',
+                chest: '100-101',
+                waist: '82-86',
+                hips: '98-100',
+                insideLeg: '88',
+                externalLeg: '111',
+                coatLength: '77',
+                sleeve: '64'
+        };
+    }
+
+    if(size == 48) {
+        return {shoulders: '46',
+                chest: '102-103',
+                waist: '87-90',
+                hips: '101-103',
+                insideLeg: '89',
+                externalLeg: '111',
+                coatLength: '77,5',
+                sleeve: '64,5'
+        };
+    }
+
     return {shoulders: '1',
                 chest: '2',
                 waist: '3',
@@ -157,8 +181,12 @@ function MeasuresGraphics() {
 var measures = new MeasuresGraphics();
 measures.drawSuitLines();
 
-$( "a[name=measure]" ).click(function() {
-  measures.deleteInitialSuitNumbers();
-  measures.drawSuitNumbers($( this).attr('id'));
-  view.draw();
+$( "a[name=measure]" ).mouseenter(function() {
+    measures.deleteInitialSuitNumbers();
+    measures.drawSuitNumbers($( this).attr('id'));
+    view.draw();
+}).mouseleave(function() {
+    measures.deleteInitialSuitNumbers();
+    measures.drawSuitNumbers();
+    view.draw();
 });
