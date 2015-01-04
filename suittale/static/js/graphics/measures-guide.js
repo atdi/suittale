@@ -1,54 +1,7 @@
 /**
  * Created by aurel on 1/3/15.
  */
-function getManSuitMeasures(size) {
-    if(size == 42) {
-        return {shoulders: '42-43',
-                chest: '96-97',
-                waist: '75-78',
-                hips: '92-94',
-                inside_leg: '88',
-                external_leg: '109',
-                coat_length: '76',
-                sleeve: '63'
-        };
-    }
-
-    if(size == 44) {
-        return {shoulders: '44',
-                chest: '98-99',
-                waist: '79-82',
-                hips: '95-97',
-                inside_leg: '88',
-                external_leg: '110',
-                coat_length: '76,5',
-                sleeve: '63,5'
-        };
-    }
-
-    if(size == 46) {
-        return {shoulders: '45',
-                chest: '100-101',
-                waist: '82-86',
-                hips: '98-100',
-                inside_leg: '88',
-                external_leg: '111',
-                coat_length: '77',
-                sleeve: '64'
-        };
-    }
-
-    if(size == 48) {
-        return {shoulders: '46',
-                chest: '102-103',
-                waist: '87-90',
-                hips: '101-103',
-                inside_leg: '89',
-                external_leg: '111',
-                coat_length: '77,5',
-                sleeve: '64,5'
-        };
-    }
+function getManSuitMeasures() {
 
     return {shoulders: '1',
                 chest: '2',
@@ -146,10 +99,10 @@ function MeasuresGraphics() {
     };
 
     this.drawSuitNumbers = function(size) {
+        var suitMeasures = getManSuitMeasures();
         if(size) {
-            //'/api/suit_size_guides'
+            suitMeasures = new MeasuresHandler().getByTypeAndSize('T1', size);
         }
-        var suitMeasures = getManSuitMeasures(size);
         this.values = {shoulders: drawText(suitMeasures.shoulders, new Point(260, 114)),
                 chest: drawText(suitMeasures.chest, new Point(260, 146)),
                 waist: drawText(suitMeasures.waist, new Point(260, 221)),

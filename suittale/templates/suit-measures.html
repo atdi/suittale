@@ -3,40 +3,25 @@
 {% block main %}
 <div class="row">
             <div class="box" id="content">
-                <div class="col-sm-4">
-                    <table>
-                        <tr>
-                            <td>
+                <div class="col-sm-3">
+
                     <canvas id="canvas" width="331" height="504">
                     </canvas>
-                            </td>
-                            <td>
-                                <div><a id="42" name="measure">42</a></div>
-                                <div><a id="44" name="measure">44</a></div>
-                                <div><a id="46" name="measure">46</a></div>
-                                <div><a id="48" name="measure">48</a></div>
-                                <div><a id="50" name="measure">50</a></div>
-                                <div><a id="52" name="measure">52</a></div>
-                                <div><a id="54" name="measure">54</a></div>
-                                <div><a id="56" name="measure">56</a></div>
-                                <div><a id="58" name="measure">58</a></div>
-                                <div><a id="60" name="measure">60</a></div>
-                            </td>
-                        </tr>
-                    </table>
 
                     <img src="{{ url_for('static', filename='img/measures/suit.png') }}" id="suit" style="display: none;"/>
 
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <h2>Tabel masuri</h2>
-
+                    <div id="measures_list"></div>
                 </div>
             </div>
 </div>
 {% endblock %}
 {% block script %}
     {{ super() }}
+    <script src="{{ url_for('static', filename='js/ractive/ractive.js') }}"></script>
     <script src="{{ url_for('static', filename='js/graphics/paper-full.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/graphics/measures-handler.js') }}"></script>
     <script type="text/paperscript" canvas="canvas" src="{{ url_for('static', filename='js/graphics/measures-guide.js') }}"></script>
 {% endblock %}
