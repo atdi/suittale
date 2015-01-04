@@ -107,11 +107,11 @@ class Size(BaseModel):
     def __str__(self):
         return '%s %s' (self.size, self.size_type)
 
-
-class SizeValues(BaseModel):
+#SuitSizeGuide
+class SuitSizeGuide(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
-    size_id = db.Column(db.String(255), db.ForeignKey('sizes.id'), nullable=False)
-    size = db.relationship(Size)
+    type = db.Column(db.String(40), nullable=False)
+    size = db.Column(db.String(5), nullable=False)
     shoulders = db.Column(db.String(20), nullable=False)
     chest = db.Column(db.String(20), nullable=False)
     waist = db.Column(db.String(20), nullable=False)
@@ -120,10 +120,10 @@ class SizeValues(BaseModel):
     external_leg = db.Column(db.String(20), nullable=False)
     coat_length = db.Column(db.String(20), nullable=False)
     sleeve = db.Column(db.String(20), nullable=False)
-    __tablename__ = 'size_values'
+    __tablename__ = 'suit_size_guides'
 
     def __str__(self):
-        return '%s %s' (self.size.size, self.size.size_type)
+        return '%s %s' (self.size, self.type)
 
 
 """

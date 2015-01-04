@@ -8,7 +8,7 @@ from .models import Category, Product, Texture, op, \
     ProductAttribute, ProductImage, Attribute, Size
 from flask import request
 from .constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
-from suittale.products.models import SizeValues
+from suittale.products.models import SuitSizeGuide
 
 
 class AdminCategoryView(AdminBaseView):
@@ -126,8 +126,8 @@ class AdminSizeView(AdminBaseView):
         super(AdminSizeView, self).__init__(Size, session, **kwargs)
 
 
-class AdminSizeValuesView(AdminBaseView):
+class AdminSuitSizeGuideView(AdminBaseView):
 
     def __init__(self, session, **kwargs):
         # You can pass name and other parameters if you want to
-        super(AdminSizeValuesView, self).__init__(SizeValues, session, **kwargs)
+        super(AdminSuitSizeGuideView, self).__init__(SuitSizeGuide, session, **kwargs)

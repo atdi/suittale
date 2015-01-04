@@ -34,7 +34,7 @@ def add_user_admin_views(admin):
 
 def add_prod_admin_views(admin):
     from suittale.products.admin import AdminCategoryView, AdminProductView, AdminTextureView, AdminProductImagesView, \
-        AdminAttributeView, AdminSizeView, AdminSizeValuesView
+        AdminAttributeView, AdminSizeView, AdminSuitSizeGuideView
 
     admin.add_view(AdminCategoryView(db.session, category='Produse'))
     admin.add_view(AdminAttributeView(db.session, category='Produse'))
@@ -42,7 +42,7 @@ def add_prod_admin_views(admin):
     admin.add_view(AdminProductView(db.session, category='Produse'))
     admin.add_view(AdminProductImagesView(db.session, category='Produse'))
     admin.add_view(AdminTextureView(db.session, category='Produse'))
-    admin.add_view(AdminSizeValuesView(db.session, category='Produse'))
+    admin.add_view(AdminSuitSizeGuideView(db.session, category='Produse'))
 
 
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)

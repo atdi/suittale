@@ -146,6 +146,9 @@ function MeasuresGraphics() {
     };
 
     this.drawSuitNumbers = function(size) {
+        if(size) {
+            //'/api/suit_size_guides'
+        }
         var suitMeasures = getManSuitMeasures(size);
         this.values = {shoulders: drawText(suitMeasures.shoulders, new Point(260, 114)),
                 chest: drawText(suitMeasures.chest, new Point(260, 146)),
