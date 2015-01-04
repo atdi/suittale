@@ -121,15 +121,16 @@ function MeasuresGraphics() {
         drawLine('#000000', new Point(103, 140), -61, 0);
     };
 
-    this.drawInitialSuitNumbers = function() {
-        this.values = {shoulders: drawText('1', new Point(260, 114)),
-                chest: drawText('2', new Point(260, 146)),
-                waist: drawText('3', new Point(260, 221)),
-                hips: drawText('4', new Point(260, 276)),
-                insideLeg: drawText('5', new Point(260, 396)),
-                externalLeg: drawText('6', new Point(44, 396)),
-                coatLength: drawText('7', new Point(44, 186)),
-                sleeve: drawText('8', new Point(44, 136))
+    this.drawSuitNumbers = function(size) {
+        var suitMeasures = getSuitMeasures(size);
+        this.values = {shoulders: drawText(suitMeasures.shoulders, new Point(260, 114)),
+                chest: drawText(suitMeasures.chest, new Point(260, 146)),
+                waist: drawText(suitMeasures.waist, new Point(260, 221)),
+                hips: drawText(suitMeasures.hips, new Point(260, 276)),
+                insideLeg: drawText(suitMeasures.insideLeg, new Point(260, 396)),
+                externalLeg: drawText(suitMeasures.externalLeg, new Point(44, 396)),
+                coatLength: drawText(suitMeasures.coatLength, new Point(44, 186)),
+                sleeve: drawText(suitMeasures.sleeve, new Point(44, 136))
         }
     };
 
@@ -137,6 +138,7 @@ function MeasuresGraphics() {
         for(var key in this.values){
             this.values[key].remove();
         }
+
     }
 
     this.drawSuitLines = function() {
@@ -148,7 +150,7 @@ function MeasuresGraphics() {
         this.drawExternalLegLine();
         this.drawCoatLengthLine();
         this.drawSleeveLine();
-        this.drawInitialSuitNumbers();
+        this.drawSuitNumbers();
     };
 };
 
@@ -157,6 +159,6 @@ measures.drawSuitLines();
 
 $( "a[name=measure]" ).click(function() {
   measures.deleteInitialSuitNumbers();
-
-  alert( "Handler for .click() called." + $( this).attr('id'));
+  measures.drawSuitNumbers($( this).attr('id'));
+  view.draw();
 });
