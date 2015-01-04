@@ -31,7 +31,8 @@ class CreateFoldersCommand(Command):
 init_app('suittale.local_config')
 
 
-# Command for initial database creation
+# Command for database creation whithout using
+# alembic
 class CreateDatabaseCommand(Command):
     def run(self):
         engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode=True)
