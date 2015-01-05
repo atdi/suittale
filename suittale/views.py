@@ -20,4 +20,13 @@ def man_suites():
 
 @app.route("/suitmeasures")
 def suit_measures():
-    return render_template('suit-measures.html')
+    return render_template('suit-measures.html',
+                           table_html='guide/suit.html',
+                           template_name='_suitMeasuresList.tmpl.html')
+
+
+@app.route("/pantsmeasures")
+def pants_measures():
+    return render_template('suit-measures.html',
+                           table_html='guide/pants.html',
+                           template_name='_pantsMeasureList.tmpl.html')

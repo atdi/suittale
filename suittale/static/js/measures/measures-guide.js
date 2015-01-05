@@ -15,6 +15,15 @@ function getManSuitMeasures() {
 
 }
 
+function getManPantsMeasures() {
+
+    return {    waist: '1',
+                hips: '2',
+                inside_leg: '3',
+                external_leg: '4'
+        };
+}
+
 
 /**
  *
@@ -98,6 +107,19 @@ function MeasuresGraphics() {
         drawLine('#000000', new Point(103, 140), -61, 0);
     };
 
+    this.drawPantsNumbers = function(size) {
+        var pantsMeasures = getManPantsMeasures();
+        if(size) {
+            pantsMeasures = new MeasuresHandler().getByTypeAndSize('T1', size);
+        }
+        this.values = {
+                waist: drawText(pantsMeasures.waist, new Point(260, 221)),
+                hips: drawText(pantsMeasures.hips, new Point(260, 276)),
+                insideLeg: drawText(pantsMeasures.inside_leg, new Point(260, 396)),
+                externalLeg: drawText(pantsMeasures.external_leg, new Point(44, 396))
+        };
+    }
+
     this.drawSuitNumbers = function(size) {
         var suitMeasures = getManSuitMeasures();
         if(size) {
@@ -111,10 +133,10 @@ function MeasuresGraphics() {
                 externalLeg: drawText(suitMeasures.external_leg, new Point(44, 396)),
                 coatLength: drawText(suitMeasures.coat_length, new Point(44, 186)),
                 sleeve: drawText(suitMeasures.sleeve, new Point(44, 136))
-        }
+        };
     };
 
-    this.deleteInitialSuitNumbers = function() {
+    this.deleteInitialNumbers = function() {
         for(var key in this.values){
             this.values[key].remove();
         }
@@ -132,17 +154,42 @@ function MeasuresGraphics() {
         this.drawSleeveLine();
         this.drawSuitNumbers();
     };
+
+    this.drawPantsLines = function() {
+        this.drawWaistLine();
+        this.drawHipsLine();
+        this.drawInsideLegLine();
+        this.drawExternalLegLine();
+        this.drawPantsNumbers();
+    };
 };
 
+var path = window.location.pathname;
 var measures = new MeasuresGraphics();
-measures.drawSuitLines();
 
-$( "tr[name=measure]" ).mouseenter(function() {
-    measures.deleteInitialSuitNumbers();
-    measures.drawSuitNumbers($( this).attr('id'));
-    view.draw();
-}).mouseleave(function() {
-    measures.deleteInitialSuitNumbers();
-    measures.drawSuitNumbers();
-    view.draw();
-});
+if(path == '/suitmeasures') {
+    measures.drawSuitLines();
+    $( "tr[name=suit_measure]" ).mouseenter(function() {
+        measures.deleteInitialNumbers();
+        measures.drawSuitNumbers($( this).attr('id'));
+        view.draw();
+    }).mouseleave(function() {
+        measures.deleteInitialNumbers();
+        measures.drawSuitNumbers();
+        view.draw();
+    });
+}
+
+if(path == '/pantsmeasures') {
+    measures.drawPantsLines();
+    $( "tr[name=pants_measure]" ).mouseenter(function() {
+        measures.deleteInitialNumbers();
+        measures.drawPantsNumbers($( this).attr('id'));
+        view.draw();
+    }).mouseleave(function() {
+        measures.deleteInitialNumbers();
+        measures.drawPantsNumbers();
+        view.draw();
+    });
+}
+

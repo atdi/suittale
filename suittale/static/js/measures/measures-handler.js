@@ -31,8 +31,8 @@ function MeasuresHandler() {
     }
 }
 
-function MeasuresRender() {
-    var templatePath = "/static/templates/measures/_suitMeasuresList.tmpl.html";
+function MeasuresRender(templateName) {
+    var templatePath = "/static/templates/measures/" + templateName;
     var templateContent = $.get(templatePath);
 
     var renderProducts = function(templateContent, data) {
@@ -58,5 +58,3 @@ function MeasuresRender() {
     }
 
 };
-
-(new MeasuresRender()).getMeasures();
