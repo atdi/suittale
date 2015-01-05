@@ -5,7 +5,6 @@ from .models import User, Role, Country, \
     Region, City, Customer, Address
 
 
-
 class AdminUserView(AdminBaseView):
 
     column_list = ('first_name', 'last_name', 'email', 'phone')

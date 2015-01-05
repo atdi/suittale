@@ -42,7 +42,7 @@ def add_prod_admin_views(admin):
     admin.add_view(AdminProductView(db.session, category='Produse'))
     admin.add_view(AdminProductImagesView(db.session, category='Produse'))
     admin.add_view(AdminTextureView(db.session, category='Produse'))
-    admin.add_view(AdminSuitSizeGuideView(db.session, category='Produse'))
+    admin.add_view(AdminSuitSizeGuideView(db.session, category='Ghid masuri'))
 
 
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)

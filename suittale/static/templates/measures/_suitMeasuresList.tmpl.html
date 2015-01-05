@@ -2,20 +2,21 @@
         <td>3. Talie</td><td>4. Solduri</td>
         <td>5. Pantalon interior</td><td>6. Pantalon exterior</td>
         <td>7. Lungime sacou</td><td>8. Lungime maneca</td> -->
-<table class="table table-bordered">
+<table class="table table-bordered table-condensed table-hover">
     <thead>
+    <tr><td colspan="9" align="center"><b>Tabel dimensiuni costume  talia a-I-a</b></td></tr>
     <tr>
-        <td>M</td>
-        <td>1</td><td>2</td>
-        <td>3</td><td>4</td>
-        <td>5</td><td>6</td>
-        <td>7</td><td>8</td>
+        <th>M</th>
+        <th>1</th><th>2</th>
+        <th>3</th><th>4</th>
+        <th>5</th><th>6</th>
+        <th>7</th><th>8</th>
     </tr>
     </thead>
     <tbody>
 {{#measures}}
-<tr>
-    <td><a id="{{size}}" name="measure">{{size}}</a></td>
+<tr id="{{size}}" name="measure">
+    <td class="info">{{size}}</td>
     <td>{{shoulders}}</td><td>{{chest}}</td>
     <td>{{waist}}</td><td>{{hips}}</td>
     <td>{{inside_leg}}</td><td>{{external_leg}}</td>

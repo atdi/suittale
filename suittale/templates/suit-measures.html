@@ -3,7 +3,7 @@
 {% block main %}
 <div class="row">
             <div class="box" id="content">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
 
                     <canvas id="canvas" width="331" height="504">
                     </canvas>
@@ -11,9 +11,23 @@
                     <img src="{{ url_for('static', filename='img/measures/suit.png') }}" id="suit" style="display: none;"/>
 
                 </div>
-                <div class="col-lg-9">
-                    <h2>Tabel masuri</h2>
-                    <div id="measures_list"></div>
+                <div class="col-lg-8">
+
+                    <div id="measures_list">
+
+                    </div>
+                    <div>
+                        <table>
+                            <tr><td>1.</td><td>&nbsp;Latimea spatelui</td></tr>
+                            <tr><td>2.</td><td>&nbsp;Circumferinta bust</td></tr>
+                            <tr><td>3.</td><td>&nbsp;Circumferinta talie</td></tr>
+                            <tr><td>4.</td><td>&nbsp;Circumferinta solduri</td></tr>
+                            <tr><td>5.</td><td>&nbsp;Lungimea pantalonului pe interior</td></tr>
+                            <tr><td>6.</td><td>&nbsp;Lungimea pantalonului pe exterior</td></tr>
+                            <tr><td>7.</td><td>&nbsp;Lungimea sacoului (pe mijloc spate)</td></tr>
+                            <tr><td>8.</td><td>&nbsp;Lungimea manecii</td></tr>
+                        </table>
+                    </div>
                 </div>
             </div>
 </div>

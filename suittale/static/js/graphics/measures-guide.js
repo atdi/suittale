@@ -137,7 +137,7 @@ function MeasuresGraphics() {
 var measures = new MeasuresGraphics();
 measures.drawSuitLines();
 
-$( "a[name=measure]" ).mouseenter(function() {
+$( "tr[name=measure]" ).mouseenter(function() {
     measures.deleteInitialSuitNumbers();
     measures.drawSuitNumbers($( this).attr('id'));
     view.draw();
