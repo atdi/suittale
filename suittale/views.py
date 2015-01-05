@@ -15,7 +15,12 @@ def about():
 
 @app.route("/msuites")
 def man_suites():
-    return render_template('mensuits.html')
+    return render_template('products-list.html')
+
+
+@app.route("/suittextures")
+def suit_textures():
+    return render_template('textures-list.html')
 
 
 @app.route("/suitmeasures")

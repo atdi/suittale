@@ -37,6 +37,10 @@ class Texture(BaseModel):
     image = db.Column(db.String(255), nullable=False)
     __tablename__ = 'textures'
 
+    @hybrid_property
+    def thumb_image(self):
+        return thumbgen_filename(self.image)
+
     def __str__(self):
         return self.code
 

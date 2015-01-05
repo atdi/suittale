@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Marios ProdConf - Costume Barbatesti{% endblock %}
+{% block main %}
+<div class="row">
+            <div class="box" id="content">
+
+            </div>
+</div>
+
+{% endblock %}
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/ractive/ractive.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/products/products-render.js') }}"></script>
+    <script>
+        (new ProductsRender("/api/textures", "{{ url_for('static', filename='templates/products/_texturesList.tmpl.html') }}")).renderItems();
+
+    </script>
+
+{% endblock %}
