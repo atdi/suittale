@@ -15,6 +15,17 @@ function getManSuitMeasures() {
 
 }
 
+function getManCoatMeasures() {
+
+    return {shoulders: '1',
+                chest: '2',
+                waist: '3',
+                coat_length: '4',
+                sleeve: '5'
+        };
+
+}
+
 function getManPantsMeasures() {
 
     return {    waist: '1',
@@ -120,6 +131,19 @@ function MeasuresGraphics() {
         };
     }
 
+    this.drawCoatsNumbers = function(size) {
+        var coatsMeasures = getManCoatMeasures();
+        if(size) {
+            coatsMeasures = new MeasuresHandler().getByTypeAndSize('T1', size);
+        }
+        this.values = {shoulders: drawText(coatsMeasures.shoulders, new Point(260, 114)),
+                chest: drawText(coatsMeasures.chest, new Point(260, 146)),
+                waist: drawText(coatsMeasures.waist, new Point(260, 221)),
+                coatLength: drawText(coatsMeasures.coat_length, new Point(44, 186)),
+                sleeve: drawText(coatsMeasures.sleeve, new Point(44, 136))
+        };
+    };
+
     this.drawSuitNumbers = function(size) {
         var suitMeasures = getManSuitMeasures();
         if(size) {
@@ -162,6 +186,15 @@ function MeasuresGraphics() {
         this.drawExternalLegLine();
         this.drawPantsNumbers();
     };
+
+    this.drawCoatsLines = function() {
+        this.drawShouldersLine();
+        this.drawChestLine();
+        this.drawWaistLine();
+        this.drawCoatLengthLine();
+        this.drawSleeveLine();
+        this.drawCoatsNumbers();
+    };
 };
 
 var path = window.location.pathname;
@@ -189,6 +222,19 @@ if(path == '/pantsmeasures') {
     }).mouseleave(function() {
         measures.deleteInitialNumbers();
         measures.drawPantsNumbers();
+        view.draw();
+    });
+}
+
+if(path == '/coatsmeasures') {
+    measures.drawCoatsLines();
+    $( "tr[name=coats_measure]" ).mouseenter(function() {
+        measures.deleteInitialNumbers();
+        measures.drawCoatsNumbers($( this).attr('id'));
+        view.draw();
+    }).mouseleave(function() {
+        measures.deleteInitialNumbers();
+        measures.drawCoatsNumbers();
         view.draw();
     });
 }

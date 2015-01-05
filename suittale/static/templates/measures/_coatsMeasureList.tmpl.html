@@ -1,0 +1,25 @@
+<!-- <td>1. Spate</td><td>2. Bust</td>
+        <td>3. Talie</td><td>4. Solduri</td>
+        <td>5. Pantalon interior</td><td>6. Pantalon exterior</td>
+        <td>7. Lungime sacou</td><td>8. Lungime maneca</td> -->
+<table class="table table-bordered table-condensed table-hover">
+    <thead>
+    <tr><td colspan="9" align="center"><b>Tabel dimensiuni costume  talia a-I-a</b></td></tr>
+    <tr>
+        <th>M</th>
+        <th>1</th><th>2</th>
+        <th>3</th><th>4</th>
+        <th>5</th>
+    </tr>
+    </thead>
+    <tbody>
+{{#measures}}
+<tr id="{{size}}" name="coats_measure">
+    <td class="info">{{size}}</td>
+    <td>{{shoulders}}</td><td>{{chest}}</td>
+    <td>{{waist}}</td>
+    <td>{{coat_length}}</td><td>{{sleeve}}</td>
+</tr>
+{{/measures}}
+    </tbody>
+</table>

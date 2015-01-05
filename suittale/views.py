@@ -30,3 +30,10 @@ def pants_measures():
     return render_template('suit-measures.html',
                            table_html='guide/pants.html',
                            template_name='_pantsMeasureList.tmpl.html')
+
+
+@app.route("/coatsmeasures")
+def coats_measures():
+    return render_template('suit-measures.html',
+                           table_html='guide/coats.html',
+                           template_name='_coatsMeasureList.tmpl.html')
