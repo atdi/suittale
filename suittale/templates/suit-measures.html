@@ -36,6 +36,6 @@
     {{ super() }}
     <script src="{{ url_for('static', filename='js/ractive/ractive.js') }}"></script>
     <script src="{{ url_for('static', filename='js/graphics/paper-full.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/graphics/measures-handler.js') }}"></script>
-    <script type="text/paperscript" canvas="canvas" src="{{ url_for('static', filename='js/graphics/measures-guide.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/measures/measures-handler.js') }}"></script>
+    <script type="text/paperscript" canvas="canvas" src="{{ url_for('static', filename='js/measures/measures-guide.js') }}"></script>
 {% endblock %}
