@@ -13,6 +13,7 @@ from .constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH, \
 
 
 
+
 class AdminCategoryView(AdminBaseView):
     # Override displayed fields
     column_list = ('name', 'creation_date')

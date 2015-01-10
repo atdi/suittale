@@ -6,6 +6,7 @@ flask-script
 flask-migrate
 flask-testing
 flask-security
+flask-babelPkg
 behave
 requests
 alembic

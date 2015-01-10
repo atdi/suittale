@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 from flask import Flask, url_for
 from flask.ext.admin.base import Admin
+from flask.ext.babelpkg import Babel
 from flask.ext.restless.manager import APIManager
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 db = SQLAlchemy()
+babel = Babel()
 
 from suittale.admin import SuittaleAdminIndexView, AuthenticatedMenuLink
 from flask.ext.security.datastore import SQLAlchemyUserDatastore
@@ -51,6 +53,7 @@ rest_manager = APIManager(app, flask_sqlalchemy_db=db)
 def init_app(settings='suittale.config'):
     app.config.from_object(settings)
     db.init_app(app)
+    babel.init_app(app)
     admin = Admin(app, index_view=SuittaleAdminIndexView(), template_mode='bootstrap2')
     # Add logout link by endpoint
     admin.add_link(AuthenticatedMenuLink(name='Logout',

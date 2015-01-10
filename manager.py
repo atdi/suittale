@@ -9,6 +9,7 @@ from flask.ext.script import Command
 from suittale.products.constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
 import os
 import os.path as op
+from babel.messages import frontend as BabelCommand
 
 
 # Command for required folders creation
@@ -59,6 +60,12 @@ def test():
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
+
+@manager.command
+def extract_messages():
+    BabelCommand.extract_messages
+#-F babel.ini -k _gettext -k _ngettext -k lazy_gettext -o admin.pot --project suittale suittale
+#pybabel compile -f -D admin -d ../flask_admin/translations/
 
 @manager.option('-e', '--email', dest='email')
 @manager.option('-fn', '--first_name', dest='first_name')
