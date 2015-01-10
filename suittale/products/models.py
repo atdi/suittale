@@ -14,11 +14,6 @@ product_categories = db.Table('product_categories', BaseModel.metadata,
                               db.Column('product_id', db.String(255), db.ForeignKey('products.id')))
 
 
-product_sizes = db.Table('product_sizes', BaseModel.metadata,
-                              db.Column('size_id', db.String(255), db.ForeignKey('sizes.id')),
-                              db.Column('product_id', db.String(255), db.ForeignKey('products.id')))
-
-
 class Category(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     name = db.Column(db.String(100), unique=True, nullable=False)
@@ -50,14 +45,15 @@ class Product(BaseModel):
     name = db.Column(db.String(100), nullable=False)
     code = db.Column(db.String(100), unique=True, nullable=False)
     short_description = db.Column(db.String(255), nullable=True)
+    description = db.Column(db.Text, nullable=True)
     price = db.Column(db.Float, nullable=False)
     currency = db.Column(db.String(3), default='RON', nullable=False)
     texture_id = db.Column(db.String(255), db.ForeignKey('textures.id'), nullable=False)
     attributes = db.relationship("ProductAttribute", backref="product")
+    texture_sizes = db.relationship("ProductMatrix", backref="product")
     images = db.relationship("ProductImage", backref="product")
-    sizes = db.relationship('Size', secondary=product_sizes, backref=db.backref('products', lazy='dynamic'))
     categories = db.relationship('Category', secondary=product_categories, backref=db.backref('products', lazy='dynamic'))
-    texture = db.relationship('Texture')
+    available = db.Column(db.Boolean, default=False)
     __tablename__ = 'products'
 
     @hybrid_property
@@ -98,7 +94,7 @@ class ProductAttribute(BaseModel):
     attribute_id = db.Column(db.String(255), db.ForeignKey('attributes.id'), nullable=False)
     product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
     attribute = db.relationship("Attribute")
-    __table_args__ = (db.UniqueConstraint('product_id', 'attribute_id', name='_product_measure_uc'),)
+    __table_args__ = (db.UniqueConstraint('product_id', 'attribute_id', name='_product_attribute_uc'),)
     __tablename__ = 'product_attributes'
 
 
@@ -109,7 +105,20 @@ class Size(BaseModel):
     __tablename__ = 'sizes'
 
     def __str__(self):
-        return '%s %s' (self.size, self.size_type)
+        return self.size + ' ' + self.size_type
+
+
+class ProductMatrix(BaseModel):
+    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
+    product_id = db.Column(db.String(255), db.ForeignKey('products.id'), nullable=False)
+    size_id = db.Column(db.String(255), db.ForeignKey('sizes.id'), nullable=False)
+    texture_id = db.Column(db.String(255), db.ForeignKey('textures.id'), nullable=False)
+    number = db.Column(db.Integer, default=0, nullable=False)
+    texture = db.relationship('Texture')
+    size = db.relationship('Size')
+    __table_args__ = (db.UniqueConstraint('product_id', 'size_id', 'texture_id', name='_product_matrix_uc'),)
+    __tablename__ = 'products_matrix'
+
 
 #SuitSizeGuide
 class SuitSizeGuide(BaseModel):
