@@ -9,7 +9,7 @@ from flask.ext.script import Command
 from suittale.products.constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
 import os
 import os.path as op
-from babel.messages import frontend as BabelCommand
+from babel.messages import extract
 
 
 # Command for required folders creation
@@ -63,7 +63,8 @@ def test():
 
 @manager.command
 def extract_messages():
-    BabelCommand.extract_messages
+    pass
+#     extract.extract_from_dir('suittale')
 #-F babel.ini -k _gettext -k _ngettext -k lazy_gettext -o admin.pot --project suittale suittale
 #pybabel compile -f -D admin -d ../flask_admin/translations/
 
