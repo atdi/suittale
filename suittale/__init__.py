@@ -47,6 +47,13 @@ def add_prod_admin_views(admin):
     admin.add_view(AdminSuitSizeGuideView(db.session, category='Ghid masuri'))
 
 
+def add_site_admin_views(admin):
+    from suittale.site.admin import AdminStaticPage, AdminLinkPage
+
+    admin.add_view(AdminStaticPage(db.session, category='Site'))
+    admin.add_view(AdminLinkPage(db.session, category='Site'))
+
+
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)
 
 
@@ -60,6 +67,7 @@ def init_app(settings='suittale.config'):
                                          url='/admin/logout'))
     add_user_admin_views(admin)
     add_prod_admin_views(admin)
+    add_site_admin_views(admin)
     init_login(app)
     from .views import index, about, man_suites, suit_measures
     # from .errors import *
