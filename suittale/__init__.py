@@ -48,10 +48,11 @@ def add_prod_admin_views(admin):
 
 
 def add_site_admin_views(admin):
-    from suittale.site.admin import AdminStaticPage, AdminLinkPage
+    from suittale.site.admin import AdminStaticPageView, AdminLinkPageView, AdminCarouselImagesView
 
-    admin.add_view(AdminStaticPage(db.session, category='Site'))
-    admin.add_view(AdminLinkPage(db.session, category='Site'))
+    admin.add_view(AdminStaticPageView(db.session, category='Site'))
+    admin.add_view(AdminLinkPageView(db.session, category='Site'))
+    admin.add_view(AdminCarouselImagesView(db.session, category='Site'))
 
 
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)
