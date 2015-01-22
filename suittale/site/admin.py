@@ -4,7 +4,7 @@ from flask.helpers import url_for
 from flask import request
 from markupsafe import Markup
 from suittale.admin_core import AdminBaseView, base_path
-from suittale.site.models import StaticPage, LinkPage, CarouselImages
+from suittale.site.models import StaticPage, LinkPage, CarouselImages, ComplexStaticPage
 import os.path as op
 
 CAROUSEL_IMG_PATH = 'uploads/carousel'
@@ -16,6 +16,15 @@ class AdminStaticPageView(AdminBaseView):
     def __init__(self, session, **kwargs):
         self.form_excluded_columns.append("type")
         super(AdminStaticPageView, self).__init__(StaticPage, session, **kwargs)
+
+
+class AdminComplexStaticPageView(AdminBaseView):
+
+    column_list = ('title', 'slug')
+
+    def __init__(self, session, **kwargs):
+        self.form_excluded_columns.append("type")
+        super(AdminComplexStaticPageView, self).__init__(ComplexStaticPage, session, **kwargs)
 
 
 class AdminLinkPageView(AdminBaseView):
