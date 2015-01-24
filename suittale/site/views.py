@@ -11,7 +11,7 @@ def create_api(rest_manager):
 
 @app.route('/menuitems', methods=['GET'])
 def get_menu_items():
-    pages = Page.filter(published=True, parent_id=None).all()
+    pages = Page.query.filter_by(published=True, parent_id=None).all()
     dict_pages = list(map(lambda page:
                           page.to_dict(include=['slug', 'title', 'children']), pages))
     return json.dumps(dict_pages)

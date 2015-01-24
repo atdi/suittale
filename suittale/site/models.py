@@ -52,7 +52,7 @@ class CarouselImages(BaseModel):
 
 
 class LinkPage(Page):
-    url = db.Column(db.String(255), nullable=False)
+    url = db.Column(db.String(255))
     __mapper_args__ = {
         'polymorphic_identity': 'link_page'
     }
