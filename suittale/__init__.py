@@ -48,12 +48,10 @@ def add_prod_admin_views(admin):
 
 
 def add_site_admin_views(admin):
-    from suittale.site.admin import AdminStaticPageView, AdminLinkPageView, \
-        AdminCarouselImagesView, AdminComplexStaticPageView
+    from suittale.site.admin import AdminPageView, \
+        AdminCarouselImagesView
 
-    admin.add_view(AdminStaticPageView(db.session, category='Site'))
-    admin.add_view(AdminComplexStaticPageView(db.session, category='Site'))
-    admin.add_view(AdminLinkPageView(db.session, category='Site'))
+    admin.add_view(AdminPageView(db.session, category='Site'))
     admin.add_view(AdminCarouselImagesView(db.session, category='Site'))
 
 
