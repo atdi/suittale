@@ -33,8 +33,16 @@ class CRUDMixin(object):
         db.session.delete(self)
         return commit and db.session.commit()
 
-    def to_dict(self):
-        return to_dict(self)
+    def to_dict(self, deep=None,
+                exclude=None,
+                include=None,
+                exclude_relations=None,
+                include_relations=None,
+                include_methods=None):
+        return to_dict(self, deep=deep, exclude=exclude, include=include,
+            exclude_relations=exclude_relations,
+            include_relations=include_relations,
+            include_methods=include_methods)
 
 
 def generate_uuid():
