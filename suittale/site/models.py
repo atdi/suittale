@@ -3,36 +3,57 @@ from suittale.core import db, generate_uuid, BaseModel
 
 
 class Page(BaseModel):
-    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
-    slug = db.Column(db.String(100))
-    title = db.Column(db.String(100), nullable=False)
-    type = db.Column(db.String(20))
-    parent_id = db.Column(db.String(255), db.ForeignKey('pages.id'), nullable=True)
     __tablename__ = 'pages'
-
-    __mapper_args__ = {
-        'polymorphic_on': type,
-        'polymorphic_identity': 'page'
-    }
+    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
+    title = db.Column(db.String(100), nullable=False)
+    slug = db.Column(db.String(100))
+    type = db.Column(db.String(50))
+    published = db.Column(db.Boolean, default=False)
+    parent_id = db.Column(db.String(255), db.ForeignKey('pages.id'))
+    children = db.relationship("Page")
 
     def __str__(self):
-        return '%s' % (self.title)
+        return '%s' % self.title
+
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'page',
+        'polymorphic_on': type
+    }
 
 
 class StaticPage(Page):
-    __tablename__ = 'static_pages'
-    id = db.Column(db.String(255), db.ForeignKey('pages.id'), primary_key=True)
+    content = db.Column(db.Text)
     keywords = db.Column(db.String(255))
-    content= db.Column(db.Text)
+    images = db.relationship("CarouselImages", backref="page")
+
     __mapper_args__ = {
-        'polymorphic_identity': 'static_page'
+        'polymorphic_identity': 'static_page',
     }
+
+
+class ComplexStaticPage(StaticPage):
+    second_content = db.Column(db.Text)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'complex_static_page',
+    }
+
+
+class CarouselImages(BaseModel):
+    __tablename__ = 'carousel_images'
+    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
+    name = db.Column(db.String(50), unique=True)
+    path = db.Column(db.String(255), nullable=False)
+    page_id = db.Column(db.String(255), db.ForeignKey('pages.id'), nullable=False)
+
+    def __str__(self):
+        return '%s' % self.name
 
 
 class LinkPage(Page):
-    __tablename__ = 'link_pages'
-    id = db.Column(db.String(255), db.ForeignKey('pages.id'), primary_key=True)
-    url = db.Column(db.String(255), nullable=False)
+    url = db.Column(db.String(255))
     __mapper_args__ = {
         'polymorphic_identity': 'link_page'
     }
+

@@ -6,6 +6,8 @@ flask-script
 flask-migrate
 flask-testing
 flask-security
+flask-babelPkg
+flask-googlemaps
 behave
 requests
 alembic
