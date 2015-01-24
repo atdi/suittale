@@ -60,3 +60,5 @@ target/
 local_config.py
 
 uploads
+
+*.db

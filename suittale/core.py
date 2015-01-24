@@ -39,10 +39,13 @@ class CRUDMixin(object):
                 exclude_relations=None,
                 include_relations=None,
                 include_methods=None):
-        return to_dict(self, deep=deep, exclude=exclude, include=include,
-            exclude_relations=exclude_relations,
-            include_relations=include_relations,
-            include_methods=include_methods)
+        return to_dict(self,
+                       deep=deep,
+                       exclude=exclude,
+                       include=include,
+                       exclude_relations=exclude_relations,
+                       include_relations=include_relations,
+                       include_methods=include_methods)
 
 
 def generate_uuid():
