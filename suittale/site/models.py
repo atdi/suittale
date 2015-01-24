@@ -15,7 +15,6 @@ class Page(BaseModel):
     def __str__(self):
         return '%s' % self.title
 
-
     __mapper_args__ = {
         'polymorphic_identity': 'page',
         'polymorphic_on': type
