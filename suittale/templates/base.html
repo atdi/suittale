@@ -6,10 +6,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+
     <meta name="author" content="">
 
-    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="{% block meta_desc %}{% endblock %}">
+
+    <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+
+    <meta name="ROBOTS" content="INDEX, FOLLOW">
+
+    <title>Marios ProdConf - {% block title %}{% endblock %}</title>
     {% block css %}
     <!-- Bootstrap Core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">

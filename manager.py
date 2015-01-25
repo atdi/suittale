@@ -7,6 +7,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
 from flask.ext.script import Command
 from suittale.products.constants import PRODUCTS_IMG_PATH, TEXTURES_IMG_PATH
+from suittale.site.constants import CAROUSEL_IMG_PATH
 import os
 import os.path as op
 from babel.messages import extract
@@ -19,13 +20,16 @@ class CreateFoldersCommand(Command):
         uploads_path = op.join(base_path, 'uploads')
         prod_file_path = op.join(base_path, PRODUCTS_IMG_PATH)
         texture_file_path = op.join(base_path, TEXTURES_IMG_PATH)
+        carousel_img_path = op.join(base_path, CAROUSEL_IMG_PATH)
         try:
             if not os.path.isdir(uploads_path):
-                os.mkdir(uploads_path)
+                os.mkdir(uploads_path, mode=0o777)
             if not os.path.isdir(prod_file_path):
-                os.mkdir(prod_file_path)
+                os.mkdir(prod_file_path, mode=0o777)
             if not os.path.isdir(texture_file_path):
-                os.mkdir(texture_file_path)
+                os.mkdir(texture_file_path, mode=0o777)
+            if not os.path.isdir(carousel_img_path):
+                os.mkdir(carousel_img_path, mode=0o777)
         except OSError as err:
             print("OS error: {0}".format(err))
 

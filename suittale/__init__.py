@@ -48,12 +48,10 @@ def add_prod_admin_views(admin):
 
 
 def add_site_admin_views(admin):
-    from suittale.site.admin import AdminStaticPageView, AdminLinkPageView, \
-        AdminCarouselImagesView, AdminComplexStaticPageView
+    from suittale.site.admin import AdminPageView, \
+        AdminCarouselImagesView
 
-    admin.add_view(AdminStaticPageView(db.session, category='Site'))
-    admin.add_view(AdminComplexStaticPageView(db.session, category='Site'))
-    admin.add_view(AdminLinkPageView(db.session, category='Site'))
+    admin.add_view(AdminPageView(db.session, category='Site'))
     admin.add_view(AdminCarouselImagesView(db.session, category='Site'))
 
 
@@ -72,7 +70,8 @@ def init_app(settings='suittale.config'):
     add_prod_admin_views(admin)
     add_site_admin_views(admin)
     init_login(app)
-    from .views import index, about, man_suites, suit_measures
+    from .views import man_suites, suit_measures
+    from suittale.site.views import index, about
     # from .errors import *
     from suittale.products.views import create_api
 

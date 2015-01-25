@@ -7,37 +7,15 @@ class Page(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     title = db.Column(db.String(100), nullable=False)
     slug = db.Column(db.String(100))
-    type = db.Column(db.String(50))
-    published = db.Column(db.Boolean, default=False)
-    parent_id = db.Column(db.String(255), db.ForeignKey('pages.id'))
-    children = db.relationship("Page")
-
-    def __str__(self):
-        return '%s' % self.title
-
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'page',
-        'polymorphic_on': type
-    }
-
-
-class StaticPage(Page):
+    content_title = db.Column(db.String(100))
     content = db.Column(db.Text)
+    second_content_title = db.Column(db.String(100))
+    second_content = db.Column(db.Text)
     keywords = db.Column(db.String(255))
     images = db.relationship("CarouselImages", backref="page")
 
-    __mapper_args__ = {
-        'polymorphic_identity': 'static_page',
-    }
-
-
-class ComplexStaticPage(StaticPage):
-    second_content = db.Column(db.Text)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'complex_static_page',
-    }
+    def __str__(self):
+        return '%s' % self.title
 
 
 class CarouselImages(BaseModel):
@@ -49,11 +27,4 @@ class CarouselImages(BaseModel):
 
     def __str__(self):
         return '%s' % self.name
-
-
-class LinkPage(Page):
-    url = db.Column(db.String(255))
-    __mapper_args__ = {
-        'polymorphic_identity': 'link_page'
-    }
 

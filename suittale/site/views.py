@@ -2,19 +2,36 @@ __author__ = 'aurel'
 
 from .models import Page
 from suittale import app
-from flask import json
+from flask import render_template
 
 
-def create_api(rest_manager):
-    rest_manager.create_api(Page, url_prefix='/titles', include_columns=['slug', 'title'], methods=['GET'])
+def get_images(images):
+    imgs = [{'url': x.path, 'active': images.index(x) == 0} for x in images]
+    return imgs
 
 
-@app.route('/menuitems', methods=['GET'])
-def get_menu_items():
-    pages = Page.query.filter_by(published=True, parent_id=None).all()
-    dict_pages = list(map(lambda page:
-                          page.to_dict(include=['slug', 'title', 'children']), pages))
-    return json.dumps(dict_pages)
+@app.route('/', methods=['GET'])
+def index():
+    page = Page.query.filter_by(slug='home').first()
+    images = get_images(page.images)
+    return render_template('index.html', title=page.title,
+                           content_title=page.content_title,
+                           content=page.content,
+                           second_content_title=page.second_content_title,
+                           second_content=page.second_content,
+                           keywords=page.keywords,
+                           images=images)
+
+
+@app.route('/about', methods=['GET'])
+def about():
+    page = Page.query.filter_by(slug='about').first()
+    return render_template('about.html', title=page.title,
+                           content_title=page.content_title,
+                           content=page.content,
+                           second_content_title=page.second_content_title,
+                           second_content=page.second_content,
+                           keywords=page.keywords)
 
 
 

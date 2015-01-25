@@ -3,37 +3,22 @@ from flask.ext.admin.form.upload import ImageUploadField, thumbgen_filename
 from flask.helpers import url_for
 from flask import request
 from markupsafe import Markup
-from suittale.admin_core import AdminBaseView, base_path
-from suittale.site.models import StaticPage, LinkPage, CarouselImages, ComplexStaticPage
+from suittale.admin_core import AdminBaseView, CKTextAreaField, base_path
+from suittale.site.models import Page, CarouselImages
 import os.path as op
-
-CAROUSEL_IMG_PATH = 'uploads/carousel'
-
-class AdminStaticPageView(AdminBaseView):
-
-    column_list = ('title', 'slug')
-
-    def __init__(self, session, **kwargs):
-        self.form_excluded_columns.append("type")
-        super(AdminStaticPageView, self).__init__(StaticPage, session, **kwargs)
+from .constants import CAROUSEL_IMG_PATH
 
 
-class AdminComplexStaticPageView(AdminBaseView):
+class AdminPageView(AdminBaseView):
 
     column_list = ('title', 'slug')
 
-    def __init__(self, session, **kwargs):
-        self.form_excluded_columns.append("type")
-        super(AdminComplexStaticPageView, self).__init__(ComplexStaticPage, session, **kwargs)
+    can_delete = False
 
-
-class AdminLinkPageView(AdminBaseView):
-
-    column_list = ('title', 'url')
+    form_overrides = dict(content=CKTextAreaField, second_content=CKTextAreaField)
 
     def __init__(self, session, **kwargs):
-        self.form_excluded_columns.append("type")
-        super(AdminLinkPageView, self).__init__(LinkPage, session, **kwargs)
+        super(AdminPageView, self).__init__(Page, session, **kwargs)
 
 
 class AdminCarouselImagesView(AdminBaseView):
@@ -42,7 +27,7 @@ class AdminCarouselImagesView(AdminBaseView):
             return ''
 
         return Markup('<img src="%s">' % url_for('static',
-                                                 filename=thumbgen_filename(model.image)))
+                                                 filename=thumbgen_filename(model.path)))
 
     column_formatters = {
         'path': _list_thumbnail
@@ -56,7 +41,7 @@ class AdminCarouselImagesView(AdminBaseView):
     }
 
     def on_model_change(self, form, model, is_created):
-        file_data = request.files.get(form.image.name)
+        file_data = request.files.get(form.path.name)
 
         if file_data:
             model.path = CAROUSEL_IMG_PATH + '/' + file_data.filename

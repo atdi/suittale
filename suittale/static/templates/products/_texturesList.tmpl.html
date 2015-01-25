@@ -18,9 +18,9 @@
                 <div id="modalCarousel" class="carousel">
 
                     <div class="carousel-inner">
-                        {{#products}}
-                         <div class="item" title="{{ code }}">
-                           <a title="{{ code }}" href="#"><img class="thumbnail img-responsive" src="/static/{{ image }}"/></a>
+                        {{#products:i}}
+                         <div class="item {{#if i==0}}active{{/if}}" title="{{ code }}">
+                           <a title="{{ code }}" href="#"><img data-toggle="magnify" class="thumbnail img-responsive" src="/static/{{ image }}"/></a>
                          </div>
                         {{/products}}
                     </div>
