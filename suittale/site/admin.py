@@ -3,7 +3,7 @@ from flask.ext.admin.form.upload import ImageUploadField, thumbgen_filename
 from flask.helpers import url_for
 from flask import request
 from markupsafe import Markup
-from suittale.admin_core import AdminBaseView, base_path
+from suittale.admin_core import AdminBaseView, CKTextAreaField, base_path
 from suittale.site.models import Page, CarouselImages
 import os.path as op
 from .constants import CAROUSEL_IMG_PATH
@@ -14,6 +14,8 @@ class AdminPageView(AdminBaseView):
     column_list = ('title', 'slug')
 
     can_delete = False
+
+    form_overrides = dict(content=CKTextAreaField, second_content=CKTextAreaField)
 
     def __init__(self, session, **kwargs):
         super(AdminPageView, self).__init__(Page, session, **kwargs)
