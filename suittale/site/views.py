@@ -14,7 +14,22 @@ def get_images(images):
 def index():
     page = Page.query.filter_by(slug='home').first()
     images = get_images(page.images)
-    return render_template('index.html', title=page.title, images=images)
+    return render_template('index.html', title=page.title,
+                           content_title=page.content_title,
+                           content=page.content,
+                           second_content_title=page.second_content_title,
+                           second_content=page.second_content,
+                           images=images)
+
+
+@app.route('/about', methods=['GET'])
+def about():
+    page = Page.query.filter_by(slug='about').first()
+    return render_template('about.html', title=page.title,
+                           content_title=page.content_title,
+                           content=page.content,
+                           second_content_title=page.second_content_title,
+                           second_content=page.second_content)
 
 
 

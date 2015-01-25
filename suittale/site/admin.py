@@ -25,7 +25,7 @@ class AdminCarouselImagesView(AdminBaseView):
             return ''
 
         return Markup('<img src="%s">' % url_for('static',
-                                                 filename=thumbgen_filename(model.image)))
+                                                 filename=thumbgen_filename(model.path)))
 
     column_formatters = {
         'path': _list_thumbnail
@@ -39,7 +39,7 @@ class AdminCarouselImagesView(AdminBaseView):
     }
 
     def on_model_change(self, form, model, is_created):
-        file_data = request.files.get(form.image.name)
+        file_data = request.files.get(form.path.name)
 
         if file_data:
             model.path = CAROUSEL_IMG_PATH + '/' + file_data.filename
