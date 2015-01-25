@@ -23,13 +23,13 @@ class CreateFoldersCommand(Command):
         carousel_img_path = op.join(base_path, CAROUSEL_IMG_PATH)
         try:
             if not os.path.isdir(uploads_path):
-                os.mkdir(uploads_path)
+                os.mkdir(uploads_path, mode=0o777)
             if not os.path.isdir(prod_file_path):
-                os.mkdir(prod_file_path)
+                os.mkdir(prod_file_path, mode=0o777)
             if not os.path.isdir(texture_file_path):
-                os.mkdir(texture_file_path)
+                os.mkdir(texture_file_path, mode=0o777)
             if not os.path.isdir(carousel_img_path):
-                os.mkdir(carousel_img_path)
+                os.mkdir(carousel_img_path, mode=0o777)
         except OSError as err:
             print("OS error: {0}".format(err))
 

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Marios ProdConf - Online Shop{% endblock %}
+{% block title %}Marios ProdConf - {{ title }}{% endblock %}
 {% block main %}
 <div class="row">
             <div class="box">
@@ -14,15 +14,11 @@
 
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
-                            <div class="item active">
-                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/slide-1.jpg') }}" alt="">
+                            {% for image in images %}
+                            <div class="item {% if image.active %}active{% endif %}">
+                                <img class="img-responsive img-full" src="{{ url_for('static', filename=image.path) }}" alt="">
                             </div>
-                            <div class="item">
-                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/slide-2.jpg') }}" alt="">
-                            </div>
-                            <div class="item">
-                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/slide-3.jpg') }}" alt="">
-                            </div>
+                            {% endfor %}
                         </div>
 
                         <!-- Controls -->

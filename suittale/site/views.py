@@ -2,15 +2,19 @@ __author__ = 'aurel'
 
 from .models import Page
 from suittale import app
-from flask import json
+from flask import render_template
 
 
-@app.route('/menuitems', methods=['GET'])
-def get_menu_items():
-    pages = Page.query.filter_by(published=True, parent_id=None).all()
-    dict_pages = list(map(lambda page:
-                          page.to_dict(include=['slug', 'title', 'children']), pages))
-    return json.dumps(dict_pages)
+def get_images(images):
+    imgs = [{'url': x.path, 'active': images.index(x) == 0} for x in images]
+    return imgs
+
+
+@app.route('/', methods=['GET'])
+def index():
+    page = Page.query.filter_by(slug='home').first()
+    images = get_images(page.images)
+    return render_template('index.html', title=page.title, images=images)
 
 
 
