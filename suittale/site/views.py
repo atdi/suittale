@@ -19,6 +19,7 @@ def index():
                            content=page.content,
                            second_content_title=page.second_content_title,
                            second_content=page.second_content,
+                           keywords=page.keywords,
                            images=images)
 
 
@@ -29,7 +30,8 @@ def about():
                            content_title=page.content_title,
                            content=page.content,
                            second_content_title=page.second_content_title,
-                           second_content=page.second_content)
+                           second_content=page.second_content,
+                           keywords=page.keywords)
 
 
 
