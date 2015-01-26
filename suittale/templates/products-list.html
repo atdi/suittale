@@ -15,5 +15,9 @@
     <script>
         (new ProductsRender("/api/products", "{{ url_for('static', filename='templates/products/_productList.tmpl.html') }}",
                 '#content')).renderItems();
+        function showProductDetails(id) {
+            (new ProductsRender("/api/products/"+id, "{{ url_for('static', filename='templates/products/_productDetail.tmpl.html') }}",
+                '#content')).renderItems();
+        }
     </script>
 {% endblock %}

@@ -40,19 +40,41 @@ function ProductsRender(url, templatePath, selector) {
             activateCarousel();
         }
 
+    };
+
+    var renderProduct = function (templateContent, data) {
+        new Ractive({
+            el: selector,
+            template: templateContent,
+            data: data
+        });
+    };
+
+    var renderListTemplate = function (data) {
+        $.when(templateContent).done(function (templateContent) {
+            renderProducts(templateContent, data);
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            log.error(errorThrown);
+        });
     }
 
     var renderTemplate = function (data) {
         $.when(templateContent).done(function (templateContent) {
-            renderProducts(templateContent, data);
+            renderProduct(templateContent, data);
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            log.error(errorThrown);
         });
     }
 
     this.renderItems = function () {
         $.when(getProducts).done(function (data) {
-            if (data != null && data.num_results > 0) {
-                renderTemplate(data.objects);
+            if (data.objects != null) {
+                renderListTemplate(data.objects);
+            } else {
+                renderTemplate(data);
             }
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            log.error(errorThrown);
         });
     }
 };
