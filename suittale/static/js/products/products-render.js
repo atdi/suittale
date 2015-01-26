@@ -21,7 +21,7 @@ function activateCarousel() {
     });
 }
 
-function ProductsRender(url, templatePath) {
+function ProductsRender(url, templatePath, selector) {
     var getProducts = $.ajax({
         url: url,
         dataType: 'json',
@@ -32,7 +32,7 @@ function ProductsRender(url, templatePath) {
 
     var renderProducts = function (templateContent, data) {
         new Ractive({
-            el: '#content',
+            el: selector,
             template: templateContent,
             data: {products: data}
         });

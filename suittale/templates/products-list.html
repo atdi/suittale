@@ -13,6 +13,7 @@
     <script src="{{ url_for('static', filename='js/ractive/ractive.js') }}"></script>
     <script src="{{ url_for('static', filename='js/products/products-render.js') }}"></script>
     <script>
-        (new ProductsRender("/api/products", "{{ url_for('static', filename='templates/products/_productList.tmpl.html') }}")).renderItems();
+        (new ProductsRender("/api/products", "{{ url_for('static', filename='templates/products/_productList.tmpl.html') }}",
+                '#content')).renderItems();
     </script>
 {% endblock %}

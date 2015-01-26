@@ -48,7 +48,6 @@ class Product(BaseModel):
     description = db.Column(db.Text, nullable=True)
     price = db.Column(db.Float, nullable=False)
     currency = db.Column(db.String(3), default='RON', nullable=False)
-    texture_id = db.Column(db.String(255), db.ForeignKey('textures.id'), nullable=False)
     attributes = db.relationship("ProductAttribute", backref="product")
     texture_sizes = db.relationship("ProductMatrix", backref="product")
     images = db.relationship("ProductImage", backref="product")
