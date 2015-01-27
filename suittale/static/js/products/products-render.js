@@ -2,35 +2,46 @@
  * Created by aurel on 12/29/14.
  */
 
-function activateCarousel() {
-    /* activate the carousel */
-    $('#modalCarousel').carousel({interval: false});
 
-    /* change modal title when slide changes */
-    $('#modalCarousel').on('slid.bs.carousel', function () {
-        $('.modal-title').html($(this).find('.active').attr("title"));
-    });
+var ProductsRender = (function () {
 
-    /* when clicking a thumbnail */
-    $('.box .thumbnail').click(function () {
-        var idx = $(this).parents('div').index();
-        var id = parseInt(idx);
-        $('#gallery-modal').modal('show'); // show the modal
-        $('#modalCarousel').carousel(id); // slide carousel to selected
 
-    });
-}
+    var url = null;
+    var templatePath = null;
+    var selector = null;
 
-function ProductsRender(url, templatePath, selector) {
-    var getProducts = $.ajax({
-        url: url,
-        dataType: 'json',
-        type: 'GET'
-    });
+    function activateCarousel() {
+        /* activate the carousel */
+        $('#modalCarousel').carousel({interval: false});
 
-    var templateContent = $.get(templatePath);
+        /* change modal title when slide changes */
+        $('#modalCarousel').on('slid.bs.carousel', function () {
+            $('.modal-title').html($(this).find('.active').attr("title"));
+        });
 
-    var renderProducts = function (templateContent, data) {
+        /* when clicking a thumbnail */
+        $('.box .thumbnail').click(function () {
+            var idx = $(this).parents('div').index();
+            var id = parseInt(idx);
+            $('#gallery-modal').modal('show'); // show the modal
+            $('#modalCarousel').carousel(id); // slide carousel to selected
+
+        });
+    }
+
+    function getProducts() {
+        return $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'GET'
+            });
+    }
+
+    function templateContent() {
+        return $.get(templatePath);
+    }
+
+    function renderProducts(templateContent, data) {
         new Ractive({
             el: selector,
             template: templateContent,
@@ -42,7 +53,7 @@ function ProductsRender(url, templatePath, selector) {
 
     };
 
-    var renderProduct = function (templateContent, data) {
+    function renderProduct(templateContent, data) {
         new Ractive({
             el: selector,
             template: templateContent,
@@ -50,33 +61,44 @@ function ProductsRender(url, templatePath, selector) {
         });
     };
 
-    var renderListTemplate = function (data) {
-        $.when(templateContent).done(function (templateContent) {
+    function renderListTemplate(data) {
+        var content = templateContent();
+        $.when(content).done(function (templateContent) {
             renderProducts(templateContent, data);
         }).fail(function(jqXHR, textStatus, errorThrown) {
-            log.error(errorThrown);
+            console.log.error(errorThrown);
         });
     }
 
-    var renderTemplate = function (data) {
-        $.when(templateContent).done(function (templateContent) {
+    function renderTemplate(data) {
+        var content = templateContent();
+        $.when(content).done(function (templateContent) {
+            //window.history.pushState(data, 'Costum barbat', '/msuites/'+data.id);
             renderProduct(templateContent, data);
         }).fail(function(jqXHR, textStatus, errorThrown) {
-            log.error(errorThrown);
+            console.log.error(errorThrown);
         });
     }
 
-    this.renderItems = function () {
-        $.when(getProducts).done(function (data) {
+    function renderItems(iUrl, iTemplatePath, iSelector) {
+        url = iUrl;
+        templatePath = iTemplatePath;
+        selector = iSelector;
+        var products = getProducts();
+        $.when(products).done(function (data) {
             if (data.objects != null) {
                 renderListTemplate(data.objects);
             } else {
                 renderTemplate(data);
             }
         }).fail(function(jqXHR, textStatus, errorThrown) {
-            log.error(errorThrown);
+            console.log.error(errorThrown);
         });
     }
-};
+
+    return {
+        renderContent: renderItems
+    };
+})();
 
 

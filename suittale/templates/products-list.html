@@ -13,11 +13,8 @@
     <script src="{{ url_for('static', filename='js/ractive/ractive.js') }}"></script>
     <script src="{{ url_for('static', filename='js/products/products-render.js') }}"></script>
     <script>
-        (new ProductsRender("/api/products", "{{ url_for('static', filename='templates/products/_productList.tmpl.html') }}",
-                '#content')).renderItems();
-        function showProductDetails(id) {
-            (new ProductsRender("/api/products/"+id, "{{ url_for('static', filename='templates/products/_productDetail.tmpl.html') }}",
-                '#content')).renderItems();
-        }
+        ProductsRender.renderContent("/api/products", "{{ url_for('static', filename='templates/products/_productList.tmpl.html') }}",
+                '#content');
+
     </script>
 {% endblock %}

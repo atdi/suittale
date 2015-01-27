@@ -19,8 +19,8 @@
     <script src="{{ url_for('static', filename='js/products/products-render.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-magnify.js') }}"></script>
     <script>
-        (new ProductsRender("/api/textures", "{{ url_for('static', filename='templates/products/_texturesList.tmpl.html') }}",
-                '#content')).renderItems();
+        ProductsRender.renderContent("/api/textures", "{{ url_for('static', filename='templates/products/_texturesList.tmpl.html') }}",
+                '#content');
 
     </script>
 
