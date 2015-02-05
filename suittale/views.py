@@ -8,6 +8,11 @@ def man_suites():
     return render_template('products-list.html')
 
 
+@app.route("/msuites/<path:id>")
+def man_suite(id):
+    return render_template('products-list.html')
+
+
 @app.route("/suittextures")
 def suit_textures():
     return render_template('textures-list.html')

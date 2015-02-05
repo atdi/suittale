@@ -64,6 +64,7 @@ var ProductsRender = (function () {
     function renderListTemplate(data) {
         var content = templateContent();
         $.when(content).done(function (templateContent) {
+            //window.history.pushState(data, 'Costume barbati', '/msuites');
             renderProducts(templateContent, data);
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log.error(errorThrown);
